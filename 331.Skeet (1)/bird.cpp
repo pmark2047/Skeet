@@ -151,54 +151,95 @@ Crazy::Crazy(double radius, double speed, int points) : Bird()
  /***************************************************************/
  /***************************************************************/
 
+void Bird::advance()
+{
+   setDrag();
+   setInertia();
+   setGravity();
+   setErratic();
+   checkBounds();
+};
+
+/***************************************************************/
+/*                            SET DRAG                         */
+/***************************************************************/
+void Bird::setDrag()
+{
+   return; // inheritted as null
+};
+
+/***************************************************************/
+/*                           SET INERTIA                       */
+/***************************************************************/
+void Bird::setInertia()
+{
+   pt.add(v);
+};
+
+/***************************************************************/
+/*                           SET GRAVITY                       */
+/***************************************************************/
+void Bird::setGravity()
+{
+   return; // inheritted as null
+};
+
+/***************************************************************/
+/*                           SET ERRATIC                       */
+/***************************************************************/
+void Bird::setErratic()
+{
+   return; // inheritted as null
+};
+
+/***************************************************************/
+/*                           CHECK BOUNDS                      */
+/***************************************************************/
+void Bird::checkBounds()
+{
+   if (isOutOfBounds())
+   {
+      kill();
+      points *= -1; // points go negative when it is missed!
+   }
+};
+
+
 /*********************************************
- * STANDARD ADVANCE
- * How the standard bird moves - inertia and drag
+ * STANDARD SET DRAG
+ * Standards have a small amount of Drag
  *********************************************/
-void Standard::advance()
+void Standard::setDrag()
 {
    // small amount of drag
    v *= 0.995;
-
-   // inertia
-   pt.add(v);
-
-   // out of bounds checker
-   if (isOutOfBounds())
-   {
-      kill();
-      points *= -1; // points go negative when it is missed!
-   }
 }
 
 /*********************************************
- * FLOATER ADVANCE
- * How the floating bird moves: strong drag and anti-gravity
+ * FLOATER SET DRAG
+ * Floaters have a large amount of drag
  *********************************************/
-void Floater::advance()
+void Floater::setDrag()
 {
    // large amount of drag
    v *= 0.990;
-
-   // inertia
-   pt.add(v);
-
-   // anti-gravity
-   v.addDy(0.05);
-
-   // out of bounds checker
-   if (isOutOfBounds())
-   {
-      kill();
-      points *= -1; // points go negative when it is missed!
-   }
 }
 
 /*********************************************
- * CRAZY ADVANCE
+ * FLOATER SET GRAVITY
+ * Floaters have the ability to float
+ *********************************************/
+void Floater::setGravity()
+{
+   // anti-gravity
+   v.addDy(0.05);
+}
+
+/*********************************************
+ * CRAZY SET ERRATIC
  * How the crazy bird moves, every half a second it changes direciton
  *********************************************/
-void Crazy::advance()
+void Crazy::setErratic()
 {
    // erratic turns eery half a second or so
    if (randomInt(0, 15) == 0)
@@ -206,37 +247,19 @@ void Crazy::advance()
       v.addDy(randomFloat(-1.5, 1.5));
       v.addDx(randomFloat(-1.5, 1.5));
    }
-
-   // inertia
-   pt.add(v);
-
-   // out of bounds checker
-   if (isOutOfBounds())
-   {
-      kill();
-      points *= -1; // points go negative when it is missed!
-   }
 }
 
 /*********************************************
- * SINKER ADVANCE
+ * SINKER SET GRAVITY
  * How the sinker bird moves, no drag but gravity
  *********************************************/
-void Sinker::advance()
+void Sinker::setGravity()
 {
    // gravity
    v.addDy(-0.07);
-
-   // inertia
-   pt.add(v);
-
-   // out of bounds checker
-   if (isOutOfBounds())
-   {
-      kill();
-      points *= -1; // points go negative when it is missed!
-   }
 }
+
+
 
 /***************************************************************/
 /***************************************************************/
