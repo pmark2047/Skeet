@@ -9,6 +9,7 @@
 
 #include <cassert>
 #include "bird.h"
+#include "advance.hpp"
 
 #ifdef __APPLE__
 #define GL_SILENCE_DEPRECATION
@@ -84,6 +85,9 @@ Standard::Standard(double radius, double speed, int points) : Bird()
    // set the size
    this->radius = radius;
    
+   // set the Advance
+   setAdvance(new StandardAdvance());
+   
    
 }
 
@@ -105,6 +109,8 @@ Floater::Floater(double radius, double speed, int points) : Bird()
 
    // set the size
    this->radius = radius;
+   // set the Advance
+   setAdvance(new FloaterAdvance());
 }
 
 /******************************************************************
@@ -125,6 +131,8 @@ Sinker::Sinker(double radius, double speed, int points) : Bird()
 
    // set the size
    this->radius = radius;
+   // set the Advance
+   setAdvance(new SinkerAdvance());
 }
 
 /******************************************************************
@@ -145,123 +153,19 @@ Crazy::Crazy(double radius, double speed, int points) : Bird()
 
    // set the size
    this->radius = radius;
+   
+   // set the Advance
+   setAdvance(new CrazyAdvance());
 }
 
- /***************************************************************/
- /***************************************************************/
- /*                            ADVANCE                          */
- /***************************************************************/
- /***************************************************************/
-
+/***************************************************************/
+/*                            ADVANCE                          */
+/***************************************************************/
 void Bird::advance()
 {
-   setDrag();
-   setInertia();
-   setGravity();
-   setErratic();
-   checkBounds();
-};
-
-/***************************************************************/
-/*                            SET DRAG                         */
-/***************************************************************/
-void Bird::setDrag()
-{
-   return; // inheritted as null
-};
-
-/***************************************************************/
-/*                           SET INERTIA                       */
-/***************************************************************/
-void Bird::setInertia()
-{
-   pt.add(v);
-};
-
-/***************************************************************/
-/*                           SET GRAVITY                       */
-/***************************************************************/
-void Bird::setGravity()
-{
-   return; // inheritted as null
-};
-
-/***************************************************************/
-/*                           SET ERRATIC                       */
-/***************************************************************/
-void Bird::setErratic()
-{
-   return; // inheritted as null
-};
-
-/***************************************************************/
-/*                           CHECK BOUNDS                      */
-/***************************************************************/
-void Bird::checkBounds()
-{
-   if (isOutOfBounds())
-   {
-      kill();
-      points *= -1; // points go negative when it is missed!
-   }
-};
-
-
-/*********************************************
- * STANDARD SET DRAG
- * Standards have a small amount of Drag
- *********************************************/
-void Standard::setDrag()
-{
-   // small amount of drag
-   v *= 0.995;
+   if (pAdvance)
+      pAdvance->advance(*this);
 }
-
-/*********************************************
- * FLOATER SET DRAG
- * Floaters have a large amount of drag
- *********************************************/
-void Floater::setDrag()
-{
-   // large amount of drag
-   v *= 0.990;
-}
-
-/*********************************************
- * FLOATER SET GRAVITY
- * Floaters have the ability to float
- *********************************************/
-void Floater::setGravity()
-{
-   // anti-gravity
-   v.addDy(0.05);
-}
-
-/*********************************************
- * CRAZY SET ERRATIC
- * How the crazy bird moves, every half a second it changes direciton
- *********************************************/
-void Crazy::setErratic()
-{
-   // erratic turns eery half a second or so
-   if (randomInt(0, 15) == 0)
-   {
-      v.addDy(randomFloat(-1.5, 1.5));
-      v.addDx(randomFloat(-1.5, 1.5));
-   }
-}
-
-/*********************************************
- * SINKER SET GRAVITY
- * How the sinker bird moves, no drag but gravity
- *********************************************/
-void Sinker::setGravity()
-{
-   // gravity
-   v.addDy(-0.07);
-}
-
-
 
 /***************************************************************/
 /***************************************************************/

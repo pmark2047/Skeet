@@ -35,8 +35,8 @@ public:
    void operator=(const Velocity & rhs) { v = rhs;     }
    void kill()                          { dead = true; }
    void setPoints(int pts)              { points = pts;}
-   void adjustVolocity(double v)           { this->v *= v; }
-   void setVolocity(Velocity v)            { this->v = v; }
+   void adjustVelocity(double v)           { this->v *= v; }
+   void setVelocity(Velocity v)            { this->v = v; }
    void adjustPosition(Velocity v)         { this->pt.add(v); }
 
    // getters
@@ -54,13 +54,8 @@ public:
    // special functions
    virtual void draw() = 0;
    
-   // template
    void advance();
-   virtual void setDrag(); // step 1
-   virtual void setInertia(); // step 2
-   virtual void setGravity(); // step 3
-   virtual void setErratic(); // step 4
-   virtual void checkBounds(); // step 5
+   void setAdvance(Advance* adv){ pAdvance = adv; }
 };
 
 /*********************************************
@@ -72,7 +67,6 @@ class Standard : public Bird
 public:
     Standard(double radius = 25.0, double speed = 5.0, int points = 10);
     void draw() override;
-    void setDrag() override;
 };
 
 /*********************************************
@@ -84,8 +78,6 @@ class Floater : public Bird
 public:
     Floater(double radius = 30.0, double speed = 5.0, int points = 15);
     void draw() override;
-    void setDrag() override;
-    void setGravity() override;
    
 };
 
@@ -98,7 +90,6 @@ class Crazy : public Bird
 public:
     Crazy(double radius = 30.0, double speed = 4.5, int points = 30);
     void draw() override;
-    void setErratic() override;
 };
 
 /*********************************************
@@ -110,5 +101,4 @@ class Sinker : public Bird
 public:
     Sinker(double radius = 30.0, double speed = 4.5, int points = 20);
     void draw() override;
-    void setGravity() override;
 };
