@@ -1,9 +1,11 @@
-//
-//  Advance.cpp
-//  Lab03
-//
-//  Created by Elijah Dodge on 1/28/26.
-//
+/***********************************************************************
+ * Source File:
+ *    Advance : How a Bird moves
+ * Author:
+ *    Elijah Dodge, Noah McSheehy
+ * Summary:
+ *    How a bird advances across the screen.
+ ************************************************************************/
 
 #include <cassert>
 #include "Advance.hpp"
