@@ -9,6 +9,9 @@
 
 #pragma once
 #include "position.h"
+#include "vector"
+
+class Impulse;
 
 /**********************
  * BIRD
@@ -23,6 +26,8 @@ protected:
    double radius;             // the size (radius) of the flyer
    bool dead;                 // is this flyer dead?
    int points;                // how many points is this worth?
+   std::vector<Impulse*> impulses; // strategies for advancing 
+
    
 public:
    Bird() : dead(false), points(0), radius(1.0) { }
@@ -47,8 +52,70 @@ public:
 
    // special functions
    virtual void draw() = 0;
-   virtual void advance() = 0;
+   void advance();
 };
+
+
+/**********************
+* Advance
+* Move the Bird
+**********************/
+class Impulse
+{
+public:
+   virtual void impulse(Bird* bird) = 0;
+};
+
+/*********************************************
+ * APPLY INERTIA
+ * pt += v
+ *********************************************/
+class ApplyInertia : public Impulse
+{
+public:
+   void impulse(Bird* bird) override;
+};
+
+/*********************************************
+ * APPLY GRAVITY
+ * v.dy -= amount
+ *********************************************/
+class ApplyGravity : public Impulse
+{
+public:
+   void impulse(Bird* bird) override;
+};
+
+/*********************************************
+ * APPLY BUOYANCY
+ * v.dy += amount
+ *********************************************/
+class ApplyBuoyancy : public Impulse
+{
+public:
+   void impulse(Bird* bird) override;
+};
+
+/*********************************************
+ * APPLY DRAG
+ * v *= factor
+ *********************************************/
+class ApplyDrag : public Impulse
+{
+public:
+   void impulse(Bird* bird) override;
+};
+
+/*********************************************
+ * APPLY TURN
+ * Random direction change
+ *********************************************/
+class ApplyTurn : public Impulse
+{
+public:
+   void impulse(Bird* bird) override;
+};
+
 
 /*********************************************
  * STANDARD
@@ -57,9 +124,8 @@ public:
 class Standard : public Bird
 {
 public:
-    Standard(double radius = 25.0, double speed = 5.0, int points = 10);
+   Standard(double radius = 25.0, double speed = 5.0, int points = 10);
     void draw();
-    void advance();
 };
 
 /*********************************************
@@ -71,7 +137,6 @@ class Floater : public Bird
 public:
     Floater(double radius = 30.0, double speed = 5.0, int points = 15);
     void draw();
-    void advance();
 };
 
 /*********************************************
@@ -83,7 +148,6 @@ class Crazy : public Bird
 public:
     Crazy(double radius = 30.0, double speed = 4.5, int points = 30);
     void draw();
-    void advance();
 };
 
 /*********************************************
@@ -95,5 +159,4 @@ class Sinker : public Bird
 public:
     Sinker(double radius = 30.0, double speed = 4.5, int points = 20);
     void draw();
-    void advance();
 };
