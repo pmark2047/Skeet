@@ -36,7 +36,7 @@
  * RANDOM
  * These functions generate a random number.
  ****************************************************************/
-int randomInt(int min, int max)
+int randomAdvanceInt(int min, int max)
 {
    assert(min < max);
    int num = (rand() % (max - min)) + min;
@@ -44,7 +44,7 @@ int randomInt(int min, int max)
    return num;
 }
 
-double randomFloat(double min, double max)
+double randomAdvanceFloat(double min, double max)
 {
    assert(min <= max);
    double num = min + ((double)rand() / (double)RAND_MAX * (max - min));
@@ -140,10 +140,10 @@ void Chaos::advance(Bird& bird)
    Velocity v = bird.getVelocity();
    
    // Erratic turns eery half a second or so
-   if (randomInt(0, 15) == 0)
+   if (randomAdvanceInt(0, 15) == 0)
    {
-      v.addDy(randomFloat(-1.5, 1.5));
-      v.addDx(randomFloat(-1.5, 1.5));
+      v.addDy(randomAdvanceFloat(-1.5, 1.5));
+      v.addDx(randomAdvanceFloat(-1.5, 1.5));
    }
    
    // Inertia
