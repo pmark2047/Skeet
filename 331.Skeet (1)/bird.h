@@ -9,8 +9,8 @@
 
 #pragma once
 #include "position.h"
-#include "Advance.hpp"
-
+//#include "Advance.hpp"
+class Advance;
 /**********************
  * BIRD
  * Everything that can be shot
@@ -24,7 +24,7 @@ protected:
    double radius;             // the size (radius) of the flyer
    bool dead;                 // is this flyer dead?
    int points;                // how many points is this worth?
-   Advance advance;
+   Advance* pAdvance;
    
 public:
    Bird() : dead(false), points(0), radius(1.0) { }
@@ -52,7 +52,16 @@ public:
 
    // special functions
    virtual void draw() = 0;
-   virtual void advance() = 0;
+   void advance()
+   {
+      if(pAdvance)
+         pAdvance->advance(*this);
+   }
+   
+   void setAdvance(Advance* adv)
+   {
+      pAdvance = adv;
+   }
 };
 
 /*********************************************
@@ -64,7 +73,7 @@ class Standard : public Bird
 public:
     Standard(double radius = 25.0, double speed = 5.0, int points = 10);
     void draw();
-    void advance();
+    // void advance();
 };
 
 /*********************************************

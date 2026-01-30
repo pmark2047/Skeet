@@ -8,6 +8,7 @@
 #pragma once
 #include <cassert>
 #include "Advance.hpp"
+#include "bird.h"
 
 #ifdef __APPLE__
 #define GL_SILENCE_DEPRECATION
@@ -62,7 +63,7 @@ void Inertia::advance(Bird& bird)
    bird.adjustVolocity(0.995);
    
    // Adjust position
-   Position pos = bird.getPosition();
+   bird.adjustPosition(bird.getVelocity());
    
    // Check if Bird is out of bounds
    if (bird.isOutOfBounds())

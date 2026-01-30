@@ -9,6 +9,7 @@
 
 #include <cassert>
 #include "bird.h"
+#include "Advance.hpp"
 
 #ifdef __APPLE__
 #define GL_SILENCE_DEPRECATION
@@ -83,6 +84,8 @@ Standard::Standard(double radius, double speed, int points) : Bird()
 
    // set the size
    this->radius = radius;
+   
+   setAdvance(new Inertia());
 }
 
 /******************************************************************
@@ -103,6 +106,8 @@ Floater::Floater(double radius, double speed, int points) : Bird()
 
    // set the size
    this->radius = radius;
+   
+   setAdvance(new Buoyancy());
 }
 
 /******************************************************************
@@ -123,6 +128,8 @@ Sinker::Sinker(double radius, double speed, int points) : Bird()
 
    // set the size
    this->radius = radius;
+   
+   setAdvance(new Gravity());
 }
 
 /******************************************************************
@@ -143,6 +150,8 @@ Crazy::Crazy(double radius, double speed, int points) : Bird()
 
    // set the size
    this->radius = radius;
+   
+   setAdvance(new Chaos());
 }
 
  /***************************************************************/

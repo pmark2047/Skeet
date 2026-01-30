@@ -7,8 +7,9 @@
 
 #pragma once
 #include "position.h"
-#include "bird.h"
+//#include "bird.h"
 
+class Bird;
 
 class Advance
 {
