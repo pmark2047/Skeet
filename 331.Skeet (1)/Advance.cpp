@@ -58,7 +58,7 @@ double randomAdvanceFloat(double min, double max)
  * INERTIA ADVANCE
  * How a standard bird moves - inertia and drag
  *********************************************/
-void Inertia::advance(Bird& bird)
+void StandardAdvance::advance(Bird& bird)
 {
    // Adjust velocity
    bird.adjustVolocity(0.995);
@@ -80,7 +80,7 @@ void Inertia::advance(Bird& bird)
  * GRAVITY ADVANCE
  * How the sinker bird moves, no drag but gravity
  *********************************************/
-void Gravity::advance(Bird& bird)
+void SinkerAdvance::advance(Bird& bird)
 {
    // Get velocity, adjust it
    Velocity v = bird.getVelocity();
@@ -108,7 +108,7 @@ void Gravity::advance(Bird& bird)
  * BOUYANCY ADVANCE
  * How the floating bird moves: strong drag and anti-gravity
  *********************************************/
-void Buoyancy::advance(Bird& bird)
+void FloaterAdvance::advance(Bird& bird)
 {
    // Get velocity, adjust it
    Velocity v = bird.getVelocity();
@@ -136,7 +136,7 @@ void Buoyancy::advance(Bird& bird)
  * CHAOS ADVANCE
  * How the crazy bird moves, every half a second it changes direciton
  *********************************************/
-void Chaos::advance(Bird& bird)
+void CrazyAdvance::advance(Bird& bird)
 {
    // Get velocity
    Velocity v = bird.getVelocity();
