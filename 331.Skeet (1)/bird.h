@@ -34,8 +34,8 @@ public:
    void operator=(const Velocity & rhs)    { v = rhs;     }
    void kill()                             { dead = true; }
    void setPoints(int pts)                 { points = pts;}
-   void adjustVolocity(double v)           { this->v *= v; }
-   void setVolocity(Velocity v)            { this->v = v; }
+   void adjustVelocity(double v)           { this->v *= v; }
+   void setVelocity(Velocity v)            { this->v = v; }
    void adjustPosition(Velocity v)         { this->pt.add(v); }
 
    // getters

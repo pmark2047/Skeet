@@ -61,7 +61,7 @@ double randomAdvanceFloat(double min, double max)
 void Inertia::advance(Bird& bird)
 {
    // Adjust velocity
-   bird.adjustVolocity(0.995);
+   bird.adjustVelocity(0.995);
    
    // Adjust position
    bird.adjustPosition(bird.getVelocity());
@@ -92,7 +92,7 @@ void Gravity::advance(Bird& bird)
    bird.adjustPosition(v);
    
    // Apply gravity to Bird's velocity
-   bird.setVolocity(v);
+   bird.setVelocity(v);
    
    // Check if Bird is out of bounds
    if (bird.isOutOfBounds())
@@ -120,7 +120,7 @@ void Buoyancy::advance(Bird& bird)
    
    // Apply anti-gravity to Bird's velocity
    v.addDy(0.05);
-   bird.setVolocity(v);
+   bird.setVelocity(v);
    
    // Check if Bird is out of bounds
    if (bird.isOutOfBounds())
@@ -152,7 +152,7 @@ void Chaos::advance(Bird& bird)
    bird.adjustPosition(v);
    
    // Make sure we set Bird's velocity
-   bird.setVolocity(v);
+   bird.setVelocity(v);
    
    // Check if Bird is out of bounds
    if (bird.isOutOfBounds())
