@@ -83,6 +83,8 @@ Standard::Standard(double radius, double speed, int points) : Bird()
 
    // set the size
    this->radius = radius;
+   
+   
 }
 
 /******************************************************************

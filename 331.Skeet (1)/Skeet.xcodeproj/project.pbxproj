@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4D8A22302F2D69720045B517 /* advance.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4D8A222F2F2D69720045B517 /* advance.cpp */; };
 		C10803212AAF7E11005CEA4E /* points.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C10803202AAF7E11005CEA4E /* points.cpp */; };
 		C15451E627403ED30095997B /* effect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C15451E527403ED30095997B /* effect.cpp */; };
 		C16B8F522744ABDE009CC1DC /* score.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C16B8F502744ABDE009CC1DC /* score.cpp */; };
@@ -35,6 +36,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4D8A222E2F2D69720045B517 /* advance.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = advance.hpp; sourceTree = "<group>"; };
+		4D8A222F2F2D69720045B517 /* advance.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = advance.cpp; sourceTree = "<group>"; };
 		C108031F2AAF7E11005CEA4E /* points.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = points.h; sourceTree = "<group>"; };
 		C10803202AAF7E11005CEA4E /* points.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = points.cpp; sourceTree = "<group>"; };
 		C15451E427403CD70095997B /* effect.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = effect.h; sourceTree = "<group>"; };
@@ -77,6 +80,8 @@
 		C1D4EACA2577F487002B56E3 = {
 			isa = PBXGroup;
 			children = (
+				4D8A222E2F2D69720045B517 /* advance.hpp */,
+				4D8A222F2F2D69720045B517 /* advance.cpp */,
 				C10803202AAF7E11005CEA4E /* points.cpp */,
 				C108031F2AAF7E11005CEA4E /* points.h */,
 				C16B8F532744AFD8009CC1DC /* score.h */,
@@ -178,6 +183,7 @@
 			files = (
 				C16B8F522744ABDE009CC1DC /* score.cpp in Sources */,
 				C1D4EAED2577F57B002B56E3 /* uiInteract.cpp in Sources */,
+				4D8A22302F2D69720045B517 /* advance.cpp in Sources */,
 				C10803212AAF7E11005CEA4E /* points.cpp in Sources */,
 				C184132A273E9C4900143AB2 /* bullet.cpp in Sources */,
 				C15451E627403ED30095997B /* effect.cpp in Sources */,
