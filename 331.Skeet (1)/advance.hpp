@@ -5,14 +5,15 @@
 //  Created by Elijah Dodge on 1/30/26.
 //
 
-#ifndef advance_hpp
-#define advance_hpp
+#pragma once
+#include "position.h"
+//#include "bird.h"
 
-#include <stdio.h>
+class Bird;
 
-#endif /* advance_hpp */
-
-
+class Advance
+{
+};
 /*
  
  Standard:Bird -> calls on Advance.StandardAdvance
