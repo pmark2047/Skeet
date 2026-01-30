@@ -10,6 +10,8 @@
 #pragma once
 #include "position.h"
 
+class Advance;
+
 /**********************
  * BIRD
  * Everything that can be shot
@@ -23,6 +25,7 @@ protected:
    double radius;             // the size (radius) of the flyer
    bool dead;                 // is this flyer dead?
    int points;                // how many points is this worth?
+   Advance* pAdvance;
    
 public:
    Bird() : dead(false), points(0), radius(1.0) { }
@@ -32,6 +35,9 @@ public:
    void operator=(const Velocity & rhs) { v = rhs;     }
    void kill()                          { dead = true; }
    void setPoints(int pts)              { points = pts;}
+   void adjustVolocity(double v)           { this->v *= v; }
+   void setVolocity(Velocity v)            { this->v = v; }
+   void adjustPosition(Velocity v)         { this->pt.add(v); }
 
    // getters
    bool isDead()           const { return dead;   }
