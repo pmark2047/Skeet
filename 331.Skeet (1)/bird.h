@@ -27,7 +27,7 @@ protected:
    Advance* pAdvance;
    
 public:
-   Bird() : dead(false), points(0), radius(1.0) { }
+   Bird() : dead(false), points(0), radius(1.0), pAdvance(nullptr) { }
    
    // setters
    void operator=(const Position    & rhs) { pt = rhs;    }
@@ -52,16 +52,13 @@ public:
 
    // special functions
    virtual void draw() = 0;
-   void advance()
-   {
-      if(pAdvance)
-         pAdvance->advance(*this);
-   }
+   void advance();
    
    void setAdvance(Advance* adv)
    {
       pAdvance = adv;
    }
+   
 };
 
 /*********************************************

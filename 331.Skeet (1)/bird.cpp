@@ -60,6 +60,14 @@ double randomFloat(double min, double max)
    return num;
 }
 
+void Bird::advance()
+{
+   if(pAdvance)
+      pAdvance->advance(*this);
+}
+
+
+
 /***************************************************************/
 /***************************************************************/
 /*                         CONSTRUCTORS                         */

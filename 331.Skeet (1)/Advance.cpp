@@ -5,7 +5,6 @@
 //  Created by Elijah Dodge on 1/28/26.
 //
 
-#pragma once
 #include <cassert>
 #include "Advance.hpp"
 #include "bird.h"
