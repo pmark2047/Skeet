@@ -10,52 +10,56 @@
 
 #pragma once
 #include "position.h"
-//#include "bird.h"
 
 class Bird;
 
+/**********************
+ * ADVANCE (Strategy)
+ **********************/
 class Advance
 {
 public:
+   virtual ~Advance() = default;
    virtual void advance(Bird& bird) = 0;
 };
 
 /*********************************************
- * INERTIA ADVANCE CONCRETE STRATEGY
- * How a standard bird moves - inertia and drag
+ * STANDARD ADVANCE
+ * Movement for Standard birds
  *********************************************/
-class Inertia : public Advance
+class StandardAdvance : public Advance
 {
 public:
    void advance(Bird& bird) override;
 };
 
 /*********************************************
- * GRAVITY ADVANCE CONCRETE STRATEGY
- * How the sinker bird moves, no drag but gravity
+ * FLOATER ADVANCE
+ * Movement for Floater birds
  *********************************************/
-class Gravity : public Advance
+class FloaterAdvance : public Advance
 {
 public:
    void advance(Bird& bird) override;
 };
 
 /*********************************************
- * BOUYANCY ADVANCE CONCRETE STRATEGY
- * How the floating bird moves: strong drag and anti-gravity
+ * SINKER ADVANCE
+ * Movement for Sinker birds
  *********************************************/
-class Buoyancy : public Advance
+class SinkerAdvance : public Advance
 {
 public:
    void advance(Bird& bird) override;
 };
 
 /*********************************************
- * CHAOS ADVANCE CONCRETE STRATEGY
- * How the crazy bird moves, every half a second it changes direciton
+ * CRAZY ADVANCE
+ * Movement for Crazy birds
  *********************************************/
-class Chaos : public Advance
+class CrazyAdvance : public Advance
 {
 public:
    void advance(Bird& bird) override;
 };
+
