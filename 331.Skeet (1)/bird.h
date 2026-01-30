@@ -28,6 +28,10 @@ protected:
    
 public:
    Bird() : dead(false), points(0), radius(1.0), pAdvance(nullptr) { }
+   virtual ~Bird()
+   {
+      delete pAdvance;
+   }
    
    // setters
    void operator=(const Position    & rhs) { pt = rhs;    }
