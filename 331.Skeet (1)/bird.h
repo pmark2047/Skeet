@@ -9,6 +9,7 @@
 
 #pragma once
 #include "position.h"
+class BirdColleague;
 
 /**********************
  * BIRD
@@ -23,6 +24,7 @@ protected:
    double radius;             // the size (radius) of the flyer
    bool dead;                 // is this flyer dead?
    int points;                // how many points is this worth?
+   BirdColleague* pColleague;
    
 public:
    Bird() : dead(false), points(0), radius(1.0) { }
@@ -48,6 +50,8 @@ public:
    // special functions
    virtual void draw() = 0;
    virtual void advance() = 0;
+   
+   void wasShot();
 };
 
 /*********************************************

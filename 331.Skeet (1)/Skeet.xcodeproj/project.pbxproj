@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4DAA24C12F3E92EC00D6DC2E /* mediator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DAA24C02F3E92EC00D6DC2E /* mediator.cpp */; };
+		4DAA24C42F3E935100D6DC2E /* colleague.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DAA24C32F3E935100D6DC2E /* colleague.cpp */; };
 		C10803212AAF7E11005CEA4E /* points.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C10803202AAF7E11005CEA4E /* points.cpp */; };
 		C15451E627403ED30095997B /* effect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C15451E527403ED30095997B /* effect.cpp */; };
 		C16B8F522744ABDE009CC1DC /* score.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C16B8F502744ABDE009CC1DC /* score.cpp */; };
@@ -35,6 +37,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4DAA24BF2F3E92EC00D6DC2E /* mediator.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = mediator.hpp; sourceTree = "<group>"; };
+		4DAA24C02F3E92EC00D6DC2E /* mediator.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = mediator.cpp; sourceTree = "<group>"; };
+		4DAA24C22F3E935100D6DC2E /* colleague.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = colleague.hpp; sourceTree = "<group>"; };
+		4DAA24C32F3E935100D6DC2E /* colleague.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = colleague.cpp; sourceTree = "<group>"; };
 		C108031F2AAF7E11005CEA4E /* points.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = points.h; sourceTree = "<group>"; };
 		C10803202AAF7E11005CEA4E /* points.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = points.cpp; sourceTree = "<group>"; };
 		C15451E427403CD70095997B /* effect.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = effect.h; sourceTree = "<group>"; };
@@ -77,6 +83,10 @@
 		C1D4EACA2577F487002B56E3 = {
 			isa = PBXGroup;
 			children = (
+				4DAA24C22F3E935100D6DC2E /* colleague.hpp */,
+				4DAA24C32F3E935100D6DC2E /* colleague.cpp */,
+				4DAA24BF2F3E92EC00D6DC2E /* mediator.hpp */,
+				4DAA24C02F3E92EC00D6DC2E /* mediator.cpp */,
 				C10803202AAF7E11005CEA4E /* points.cpp */,
 				C108031F2AAF7E11005CEA4E /* points.h */,
 				C16B8F532744AFD8009CC1DC /* score.h */,
@@ -183,9 +193,11 @@
 				C15451E627403ED30095997B /* effect.cpp in Sources */,
 				C184132C273E9C4900143AB2 /* bird.cpp in Sources */,
 				C1D4EAEA2577F57B002B56E3 /* position.cpp in Sources */,
+				4DAA24C42F3E935100D6DC2E /* colleague.cpp in Sources */,
 				C16F25492716733A000FA407 /* time.cpp in Sources */,
 				C1841329273E9C4900143AB2 /* game.cpp in Sources */,
 				C1D4EAEB2577F57B002B56E3 /* skeet.cpp in Sources */,
+				4DAA24C12F3E92EC00D6DC2E /* mediator.cpp in Sources */,
 				C184132B273E9C4900143AB2 /* gun.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
