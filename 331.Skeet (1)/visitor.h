@@ -34,7 +34,7 @@ public:
    void visit(Effect* effect) override;
 };
 
-
+// The base class for all flying objects (birds, bullets, and effects)
 class FlyingObject
 {
 public:

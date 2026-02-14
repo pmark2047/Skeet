@@ -31,6 +31,7 @@ protected:
 public:
    Bullet(double angle = 0.0, double speed = 30.0, double radius = 5.0, int value = 1);
 
+   // accept a visitor
    virtual void accept(Visitor* visitor)
    {
       visitor->visit(this);

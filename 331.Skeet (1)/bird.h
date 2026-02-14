@@ -29,7 +29,7 @@ protected:
 public:
    Bird() : dead(false), points(0), radius(1.0) { }
 
-
+   // accept a visitor
    virtual void accept(Visitor* visitor)
    {
       visitor->visit(this);

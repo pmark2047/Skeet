@@ -53,7 +53,9 @@ void Skeet::animate()
    
    // spawn
    spawn();
-   
+
+
+   // Old Implementation:
    // move the birds and the bullets
    //for (auto element : birds)
    //{
@@ -65,6 +67,7 @@ void Skeet::animate()
    //for (auto effect : effects)
    //   effect->fly();
 
+   // use the visitor pattern to move everything
    VisitMove moveVisitor(effects);
 
    for (auto element : birds)
@@ -315,6 +318,7 @@ void Skeet::drawLevel() const
    // output the gun
    gun.display();
          
+   // Old Implementation:
    // output the birds, bullets, and fragments
    //for (auto& pts : points)
    //   pts.show();
@@ -325,9 +329,6 @@ void Skeet::drawLevel() const
    //for (auto element : birds)
    //   element->draw();
 
-   // output the birds, bullets, and fragments
-   for (auto& pts : points)
-      pts.show();
 
    // create the draw visitor
    VisitDraw drawVisitor;
@@ -341,6 +342,10 @@ void Skeet::drawLevel() const
 
    for (auto element : birds)
       element->accept(&drawVisitor);
+
+   // output the birds, bullets, and fragments
+   for (auto& pts : points)
+      pts.show();
    
    // status
    drawText(Position(10,                         dimensions.getY() - 30), score.getText()  );

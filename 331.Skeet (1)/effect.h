@@ -23,6 +23,7 @@ public:
     // create a fragment based on the velocity and position of the bullet
     Effect(const Position & pt) : pt(pt), age(0.5) {}
 
+    // accept a visitor
     virtual void accept(Visitor* visitor)
     {
        visitor->visit(this);
