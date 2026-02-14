@@ -6,6 +6,7 @@
 #include <string>
 #include <sstream>
 #include "skeet.h"
+#include "visitor.h"
 using namespace std;
 
 
@@ -309,8 +310,10 @@ void Skeet::drawLevel() const
       effect->render();
    for (auto bullet : bullets)
       bullet->output();
+   
+   DrawVisitor dv;
    for (auto element : birds)
-      element->draw();
+      element->accept(dv);
    
    // status
    drawText(Position(10,                         dimensions.getY() - 30), score.getText()  );
