@@ -9,6 +9,7 @@
 
 #pragma once
 #include <string>
+#include "observer.h"
 
 /**********************
  * STATUS
@@ -27,13 +28,17 @@ public:
  * SCORE
  * Points earned vs lost
  **********************/
-class Score : public Status
+class Score : public Status, public Observer
 {
 public:
     Score() { reset(); }
     std::string getText() const;
     void adjust(int value) { points += value; }
     void reset() { points = 0; }
+
+    // Observer Method
+    void update(EventType event, int value) override;
+
 private:
     int points;
 };
@@ -42,13 +47,16 @@ private:
  * HIT RATIO
  * Bird hit ratio
  **********************/
-class HitRatio : public Status
+class HitRatio : public Status, public Observer
 {
 public:
     HitRatio()  { reset(); }
     std::string getText() const;
     void adjust(int value);
     void reset() { numKilled = numMissed = 0; }
+
+    // Observer Method
+    void update(EventType event, int value) override;
 private:
     int numKilled;
     int numMissed;

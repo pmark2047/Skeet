@@ -18,6 +18,8 @@
 #include "time.h"
 #include "score.h"
 #include "points.h"
+#include "subject.h"
+
 
 #include <list>
 
@@ -25,11 +27,21 @@
  * Skeet
  * The game class
  *************************************************************************/
-class Skeet
+class Skeet : public Subject
 {
 public:
-    Skeet(Position & dimensions) : dimensions(dimensions),
-        gun(Position(800.0, 0.0)), time(), score(), hitRatio(), bullseye(false) {}
+   Skeet(Position& dimensions)
+      : dimensions(dimensions),
+      gun(Position(800.0, 0.0)),
+      time(),
+      score(),
+      hitRatio(),
+      bullseye(false)
+   {
+      // Register observers
+      subscribe(&score);
+      subscribe(&hitRatio);
+   }
 
     // handle all user input
     void interact(const UserInput& ui);

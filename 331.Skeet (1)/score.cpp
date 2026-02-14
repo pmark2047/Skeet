@@ -51,3 +51,25 @@ void HitRatio::adjust(int value)
     else if (value < 0)
         numMissed++;
 }
+
+/************************
+ * SCORE UPDATE
+ * Update the score based on the event
+ ************************/
+void Score::update(EventType event, int value)
+{
+   if (event == SCORE_CHANGE)
+      adjust(value);
+}
+
+/************************
+ * HIT RATIO UPDATE
+ * Update the hit ratio based on the event
+ ************************/
+void HitRatio::update(EventType event, int value)
+{
+   if (event == BIRD_HIT)
+      adjust(1);
+   else if (event == BIRD_MISSED)
+      adjust(-1);
+}
