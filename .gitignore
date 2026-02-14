@@ -1,0 +1,12 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/Skeet/v17
+/331.Skeet (1)/.vs/Skeet
+/331.Skeet (1)/packages
+/331.Skeet (1)/Skeet/x64/Debug/Skeet.tlog
+/331.Skeet (1)/Skeet/x64/Debug
+/331.Skeet (1)/x64/Debug
+/331.Skeet (1)/Skeet.vcxproj
+/.gitignore
