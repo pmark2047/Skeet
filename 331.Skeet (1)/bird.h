@@ -9,12 +9,13 @@
 
 #pragma once
 #include "position.h"
+#include "visitor.h"
 
 /**********************
  * BIRD
  * Everything that can be shot
  **********************/
-class Bird
+class Bird : public FlyingObject
 {
 protected:
    static Position dimensions; // size of the screen
@@ -26,6 +27,12 @@ protected:
    
 public:
    Bird() : dead(false), points(0), radius(1.0) { }
+
+
+   virtual void accept(Visitor* visitor)
+   {
+      visitor->visit(this);
+   }
    
    // setters
    void operator=(const Position    & rhs) { pt = rhs;    }

@@ -54,15 +54,27 @@ void Skeet::animate()
    spawn();
    
    // move the birds and the bullets
+   //for (auto element : birds)
+   //{
+   //   element->advance();
+   //   hitRatio.adjust(element->isDead() ? -1 : 0);
+   //}
+   //for (auto bullet : bullets)
+   //   bullet->move(effects);
+   //for (auto effect : effects)
+   //   effect->fly();
+
+   VisitMove moveVisitor(effects);
+
    for (auto element : birds)
-   {
-      element->advance();
-      hitRatio.adjust(element->isDead() ? -1 : 0);
-   }
+      element->accept(&moveVisitor);
+
    for (auto bullet : bullets)
-      bullet->move(effects);
+      bullet->accept(&moveVisitor);
+
    for (auto effect : effects)
-      effect->fly();
+      effect->accept(&moveVisitor);
+
    for (auto & pts : points)
       pts.update();
       
@@ -303,14 +315,31 @@ void Skeet::drawLevel() const
    gun.display();
          
    // output the birds, bullets, and fragments
+   //for (auto& pts : points)
+   //   pts.show();
+   //for (auto effect : effects)
+   //   effect->render();
+   //for (auto bullet : bullets)
+   //   bullet->output();
+   //for (auto element : birds)
+   //   element->draw();
+
+   // output the birds, bullets, and fragments
    for (auto& pts : points)
       pts.show();
+
+   // create the draw visitor
+   VisitDraw drawVisitor;
+
+   // use visitor instead of direct calls
    for (auto effect : effects)
-      effect->render();
+      effect->accept(&drawVisitor);
+
    for (auto bullet : bullets)
-      bullet->output();
+      bullet->accept(&drawVisitor);
+
    for (auto element : birds)
-      element->draw();
+      element->accept(&drawVisitor);
    
    // status
    drawText(Position(10,                         dimensions.getY() - 30), score.getText()  );

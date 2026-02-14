@@ -10,6 +10,7 @@
 #pragma once
 #include "position.h"
 #include "effect.h"
+#include "visitor.h"
 #include <list>
 #include <cassert>
 
@@ -17,7 +18,7 @@
  * BULLET
  * Something to shoot something else
  *********************************************/
-class Bullet
+class Bullet : public FlyingObject
 {
 protected:
    static Position dimensions;   // size of the screen
@@ -29,6 +30,11 @@ protected:
     
 public:
    Bullet(double angle = 0.0, double speed = 30.0, double radius = 5.0, int value = 1);
+
+   virtual void accept(Visitor* visitor)
+   {
+      visitor->visit(this);
+   }
    
    // setters
    void kill()                   { dead = true; }

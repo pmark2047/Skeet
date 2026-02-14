@@ -19,6 +19,8 @@
 #include "score.h"
 #include "points.h"
 
+#include "visitor.h"
+
 #include <list>
 
 /*************************************************************************

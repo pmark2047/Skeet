@@ -9,11 +9,12 @@
 
 #pragma once
 #include "position.h"
+#include "visitor.h"
 
 /**********************
  * Effect: stuff that is not interactive
  **********************/
-class Effect
+class Effect : public FlyingObject
 {
 protected:
     Position pt;      // location of the effect
@@ -21,6 +22,11 @@ protected:
 public:
     // create a fragment based on the velocity and position of the bullet
     Effect(const Position & pt) : pt(pt), age(0.5) {}
+
+    virtual void accept(Visitor* visitor)
+    {
+       visitor->visit(this);
+    }
     
     // draw it
     virtual void render() const = 0;
