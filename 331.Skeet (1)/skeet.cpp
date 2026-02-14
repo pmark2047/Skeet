@@ -32,6 +32,38 @@ using namespace std;
 #endif // _WIN32
 
 /************************
+ * SKEET CONSTRUCTOR
+ * Lets build it
+ ************************/
+Skeet::Skeet(Position & dimensions) : dimensions(dimensions),
+    gun(Position(800.0, 0.0)), time(), score(), hitRatio(), bullseye(false)
+{
+    // build the handlers
+    LevelOneHandler* p1 = new LevelOneHandler();
+    LevelTwoHandler* p2 = new LevelTwoHandler();
+    LevelThreeHandler* p3 = new LevelThreeHandler();
+    LevelFourHandler* p4 = new LevelFourHandler();
+
+    // link chain
+    p1->setNext(p2);
+    p2->setNext(p3);
+    p3->setNext(p4);
+
+    // set the head
+    this->plevelChain = p1;
+}
+
+/************************
+ * SKEET DESTRUCTOR
+ * Lets destroy it
+ ************************/
+Skeet::~Skeet()
+{
+   delete plevelChain;
+}
+
+
+/************************
  * SKEET ANIMATE
  * move the gameplay by one unit of time
  ************************/
@@ -391,21 +423,6 @@ void Skeet::interact(const UserInput & ui)
       bullet->input(ui.isUp() + ui.isRight(), ui.isDown() + ui.isLeft(), ui.isB()); 
 }
 
-/******************************************************************
- * RANDOM
- * This function generates a random number.
- *
- *    INPUT:   min, max : The number of values (min <= num <= max)
- *    OUTPUT   <return> : Return the integer
- ****************************************************************/
-int random(int min, int max)
-{
-   assert(min < max);
-   int num = (rand() % (max - min)) + min;
-   assert(min <= num && num <= max);
-
-   return num;
-}
 
 /************************
  * SKEET SPAWN
@@ -413,76 +430,5 @@ int random(int min, int max)
  ************************/
 void Skeet::spawn()
 {
-   double size;
-   switch (time.level())
-   {
-      // in level 1 spawn big birds occasionally
-      case 1:
-         size = 30.0;
-         // spawns when there is nothing on the screen
-         if (birds.size() == 0 && random(0, 15) == 1)
-            birds.push_back(new Standard(size, 7.0));
-         
-         // spawn every 4 seconds
-         if (random(0, 4 * 30) == 1)
-            birds.push_back(new Standard(size, 7.0));
-         break;
-         
-      // two kinds of birds in level 2
-      case 2:
-         size = 25.0;
-         // spawns when there is nothing on the screen
-         if (birds.size() == 0 && random(0, 15) == 1)
-            birds.push_back(new Standard(size, 7.0, 12));
-
-         // spawn every 4 seconds
-         if (random(0, 4 * 30) == 1)
-            birds.push_back(new Standard(size, 5.0, 12));
-         // spawn every 3 seconds
-         if (random(0, 3 * 30) == 1)
-            birds.push_back(new Sinker(size));
-         break;
-      
-      // three kinds of birds in level 3
-      case 3:
-         size = 20.0;
-         // spawns when there is nothing on the screen
-         if (birds.size() == 0 && random(0, 15) == 1)
-            birds.push_back(new Standard(size, 5.0, 15));
-
-         // spawn every 4 seconds
-         if (random(0, 4 * 30) == 1)
-            birds.push_back(new Standard(size, 5.0, 15));
-         // spawn every 4 seconds
-         if (random(0, 4 * 30) == 1)
-            birds.push_back(new Sinker(size, 4.0, 22));
-         // spawn every 4 seconds
-         if (random(0, 4 * 30) == 1)
-            birds.push_back(new Floater(size));
-         break;
-         
-      // three kinds of birds in level 4
-      case 4:
-         size = 15.0;
-         // spawns when there is nothing on the screen
-         if (birds.size() == 0 && random(0, 15) == 1)
-            birds.push_back(new Standard(size, 4.0, 18));
-
-         // spawn every 4 seconds
-         if (random(0, 4 * 30) == 1)
-            birds.push_back(new Standard(size, 4.0, 18));
-         // spawn every 4 seconds
-         if (random(0, 4 * 30) == 1)
-            birds.push_back(new Sinker(size, 3.5, 25));
-         // spawn every 4 seconds
-         if (random(0, 4 * 30) == 1)
-            birds.push_back(new Floater(size, 4.0, 25));
-         // spawn every 4 seconds
-         if (random(0, 4 * 30) == 1)
-            birds.push_back(new Crazy(size));
-         break;
-         
-      default:
-         break;
-   }
+   plevelChain->handleLevel(time.level(), birds);
 }

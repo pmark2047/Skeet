@@ -18,6 +18,7 @@
 #include "time.h"
 #include "score.h"
 #include "points.h"
+#include "levelHandler.h"
 
 #include <list>
 
@@ -28,8 +29,8 @@
 class Skeet
 {
 public:
-    Skeet(Position & dimensions) : dimensions(dimensions),
-        gun(Position(800.0, 0.0)), time(), score(), hitRatio(), bullseye(false) {}
+    Skeet(Position & dimensions);
+    ~Skeet();
 
     // handle all user input
     void interact(const UserInput& ui);
@@ -61,5 +62,6 @@ private:
     Score score;                   // the player's score
     HitRatio hitRatio;             // the hit ratio for the birds
     Position dimensions;           // size of the screen
+    LevelHandler* plevelChain;     // head of level building chain
     bool bullseye;
 };
