@@ -6,6 +6,7 @@
 #include <string>
 #include <sstream>
 #include "skeet.h"
+#include "visitor.h"
 using namespace std;
 
 

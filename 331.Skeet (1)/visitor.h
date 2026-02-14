@@ -7,7 +7,7 @@ class Effect;
 
 class Visitor
 {
-public:
+public: 
    virtual ~Visitor() {}
    virtual void visit(Bird* bird) = 0;
    virtual void visit(Bullet* bullet) = 0;
@@ -21,7 +21,7 @@ public:
    void visit(Bird* bird) override;
    void visit(Bullet* bullet) override;
    void visit(Effect* effect) override;
-
+  
 private:
    std::list<Effect*>& effects;
 };

@@ -11,6 +11,8 @@
 #include "position.h"
 #include "visitor.h"
 
+class BirdVisitor;
+
 /**********************
  * BIRD
  * Everything that can be shot
@@ -55,6 +57,7 @@ public:
    // special functions
    virtual void draw() = 0;
    virtual void advance() = 0;
+   virtual void accept(BirdVisitor& v) = 0;
 };
 
 /*********************************************
@@ -67,6 +70,7 @@ public:
     Standard(double radius = 25.0, double speed = 5.0, int points = 10);
     void draw();
     void advance();
+    void accept(BirdVisitor& v) override;
 };
 
 /*********************************************
@@ -79,6 +83,7 @@ public:
     Floater(double radius = 30.0, double speed = 5.0, int points = 15);
     void draw();
     void advance();
+    void accept(BirdVisitor& v) override;
 };
 
 /*********************************************
@@ -91,6 +96,7 @@ public:
     Crazy(double radius = 30.0, double speed = 4.5, int points = 30);
     void draw();
     void advance();
+    void accept(BirdVisitor& v) override;
 };
 
 /*********************************************
@@ -103,4 +109,5 @@ public:
     Sinker(double radius = 30.0, double speed = 4.5, int points = 20);
     void draw();
     void advance();
+    void accept(BirdVisitor& v) override;
 };
