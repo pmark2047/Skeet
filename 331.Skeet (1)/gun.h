@@ -26,3 +26,52 @@ private:
    double angle;
    Position pt;
 };
+
+
+/************************************************************************
+ * GUN LOGIC
+ * The logic of the gun, such as how it moves.
+ * 
+ ************************************************************************/
+class GunLogic
+{
+public:
+   void interact(GunStorage& storage,
+      int clockwise,
+      int counterclockwise);
+};
+
+
+/************************************************************************
+ * GUN INTERFACE
+ * The interface of the gun, such as how it interacts with the user.
+ * 
+ ************************************************************************/
+class GunInterface
+{
+public:
+   void draw(const GunStorage& storage) const;
+};
+
+
+/************************************************************************
+ * GUN STORAGE
+ * The storage of the gun, such as how it stores its state.
+ * 
+ ************************************************************************/
+class GunStorage
+{
+public:
+   GunStorage(const Position& pt)
+      : angle(0.78), pt(pt) {
+   }
+
+   double getAngle() const { return angle; }
+   void setAngle(double a) { angle = a; }
+
+   const Position& getPosition() const { return pt; }
+
+private:
+   double angle;
+   Position pt;
+};

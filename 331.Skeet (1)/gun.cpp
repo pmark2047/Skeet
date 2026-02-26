@@ -123,3 +123,48 @@ void Gun::interact(int clockwise, int counterclockwise)
          angle = 0.0;
    }
 }
+
+
+
+
+
+
+/************************************************************************
+ * IMPLEMENTATION OF GUN LOGIC, INTERFACE, AND STORAGE
+ * 
+ ************************************************************************/
+
+void GunLogic::interact(GunStorage& storage,
+   int clockwise,
+   int counterclockwise)
+{
+   double angle = storage.getAngle();
+
+   //Any true input values will result in greater than zero
+   if (clockwise > 0)
+   {
+      angle += (clockwise > 10) ? 0.06 : 0.025;
+      if (angle > M_PI_2)
+         angle = M_PI_2;
+   }
+
+   //Any true input values will result in greater than zero
+   if (counterclockwise > 0)
+   {
+      angle -= (counterclockwise > 10) ? 0.06 : 0.025;
+      if (angle < 0.0)
+         angle = 0.0;
+   }
+
+   storage.setAngle(angle);
+}
+void GunInterface::draw(const GunStorage& storage) const
+{
+   drawRectangle(
+      storage.getPosition(),
+      M_PI_2 - storage.getAngle(),
+      10.0,
+      100.0,
+      1.0, 1.0, 1.0
+   );
+}
