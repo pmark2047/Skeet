@@ -11,15 +11,47 @@
 #include <string>
 
 /**********************
- * STATUS
+ * STATUS LOGIC
  * How well the player is doing
  **********************/
-class Status
+class StatusLogic
 {
 public:
-    Status() {}
-    virtual std::string getText() const = 0;
+    StatusLogic() {}
     virtual void adjust(int value) = 0;
+};
+
+/**********************
+ * SCORE
+ * Points earned vs lost
+ **********************/
+class ScoreLogic : public StatusLogic
+{
+public:
+    ScoreLogic() { }
+    void adjust(int value) { points += value; }
+};
+
+/**********************
+ * HIT RATIO
+ * Bird hit ratio
+ **********************/
+class HitRatioLogic : public StatusLogic
+{
+public:
+    HitRatioLogic()  { }
+    void adjust(int value);
+};
+
+/**********************
+ * STATUS STORAGE
+ * How well the player is doing
+ **********************/
+class StatusStorage
+{
+public:
+    StatusStorage() {}
+    virtual std::string getText() const = 0;
     virtual void reset() = 0;
 };
 
@@ -27,12 +59,11 @@ public:
  * SCORE
  * Points earned vs lost
  **********************/
-class Score : public Status
+class ScoreStorage : public StatusStorage
 {
 public:
-    Score() { reset(); }
+    ScoreStorage() { reset(); }
     std::string getText() const;
-    void adjust(int value) { points += value; }
     void reset() { points = 0; }
 private:
     int points;
@@ -42,12 +73,11 @@ private:
  * HIT RATIO
  * Bird hit ratio
  **********************/
-class HitRatio : public Status
+class HitRatioStorage : public StatusStorage
 {
 public:
-    HitRatio()  { reset(); }
+    HitRatioStorage()  { reset(); }
     std::string getText() const;
-    void adjust(int value);
     void reset() { numKilled = numMissed = 0; }
 private:
     int numKilled;
