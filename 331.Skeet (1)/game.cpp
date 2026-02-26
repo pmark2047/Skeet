@@ -30,6 +30,10 @@ void callBack(const UserInput* pUI, void* p)
    // is the first step of every single callback function in OpenGL. 
    Skeet* pSkeet = (Skeet*)p;
 
+   // Use SkeetInterface
+   // something like pSkeet->playSkeet(*pUI);
+   // ^this holds all the functions called upon below
+   
    // handle user input
    pSkeet->interact(*pUI);
 
