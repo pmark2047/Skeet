@@ -35,7 +35,7 @@ using namespace std;
  * SKEET ANIMATE
  * move the gameplay by one unit of time
  ************************/
-void Skeet::animate()
+void SkeetLogic::animate()
 {
    time++;
    
@@ -128,7 +128,7 @@ void Skeet::animate()
  * Fill in the background
  *  INPUT color   Background color
  *************************************************************************/
-void Skeet::drawBackground(double redBack, double greenBack, double blueBack) const
+void SkeetInterface::drawBackground(double redBack, double greenBack, double blueBack) const
 {
    glBegin(GL_TRIANGLE_FAN);
 
@@ -149,7 +149,7 @@ void Skeet::drawBackground(double redBack, double greenBack, double blueBack) co
  *        Foreground  Foreground color
  *        Background  Background color
  *************************************************************************/
-void Skeet::drawTimer(double percent,
+void SkeetInterface::drawTimer(double percent,
                      double redFore, double greenFore, double blueFore,
                      double redBack, double greenBack, double blueBack) const
 {
@@ -260,7 +260,7 @@ void drawText(const Position & topLeft, const string & text)
  * DRAW BULLSEYE
  * Put a bullseye on the screen
  ************************/
-void Skeet::drawBullseye(double angle) const
+void SkeetInterface::drawBullseye(double angle) const
 {
    // find where we are pointing
    double distance = dimensions.getX();
@@ -290,7 +290,7 @@ void Skeet::drawBullseye(double angle) const
  * SKEET DRAW LEVEL
  * output everything that will be on the screen
  ************************/
-void Skeet::drawLevel() const
+void SkeetInterface::drawLevel() const
 {
    // output the background
    drawBackground(time.level() * .1, 0.0, 0.0);
@@ -322,7 +322,7 @@ void Skeet::drawLevel() const
  * SKEET DRAW STATUS
  * place the status message on the center of the screen
  ************************/
-void Skeet::drawStatus() const
+void SkeetInterface::drawStatus() const
 {
    // output the text information
    ostringstream sout;
@@ -355,7 +355,7 @@ void Skeet::drawStatus() const
  * SKEET INTERACT
  * handle all user input
  ************************/
-void Skeet::interact(const UserInput & ui)
+void SkeetLogic::interact(const UserInput & ui)
 {
    // reset the game
    if (time.isGameOver() && ui.isSpace())
@@ -411,7 +411,7 @@ int random(int min, int max)
  * SKEET SPAWN
  * lanuch new birds
  ************************/
-void Skeet::spawn()
+void SkeetLogic::spawn()
 {
    double size;
    switch (time.level())

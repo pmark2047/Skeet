@@ -25,41 +25,73 @@
  * Skeet
  * The game class
  *************************************************************************/
-class Skeet
+class SkeetInterface
 {
 public:
-    Skeet(Position & dimensions) : dimensions(dimensions),
+    SkeetInterface(Position & dimensions) : dimensions(dimensions),
         gun(Position(800.0, 0.0)), time(), score(), hitRatio(), bullseye(false) {}
-
-    // handle all user input
-    void interact(const UserInput& ui);
-
-    // move the gameplay by one unit of time
-    void animate();
 
     // output everything on the screen
     void drawLevel()  const;    // output the game
     void drawStatus() const;    // output the status information
-
-    // is the game currently playing right now?
-    bool isPlaying() const { return time.isPlaying();  }
+    
 private:
-    // generate new birds
-    void spawn();                  
-    void drawBackground(double redBack, double greenBack, double blueBack) const;
-    void drawTimer(double percent,
-                   double redFore, double greenFore, double blueFore,
-                   double redBack, double greenBack, double blueBack) const;
-    void drawBullseye(double angle) const;
+   GunInterface gunInterface;
+   BirdInterface birdInterface;
+   BulletInterface bulletInterface;
+   EffectInterface effectInterface;
+   PointsInterface pointsInterface;
+   
+   void drawBackground(double redBack, double greenBack, double blueBack) const;
+   void drawTimer(double percent,
+                double redFore, double greenFore, double blueFore,
+                double redBack, double greenBack, double blueBack) const;
+   void drawBullseye(double angle) const;
 
-    Gun gun;                       // the gun
-    std::list<Bird*> birds;        // all the shootable birds
-    std::list<Bullet*> bullets;    // the bullets
-    std::list<Effect*> effects;    // the fragments of a dead bird.
-    std::list<Points>  points;     // point values;
-    Time time;                     // how many frames have transpired since the beginning
-    Score score;                   // the player's score
-    HitRatio hitRatio;             // the hit ratio for the birds
-    Position dimensions;           // size of the screen
-    bool bullseye;
+    
+};
+
+
+class SkeetLogic
+{
+public:
+   SkeetLogic() {}
+   
+   // handle all user input
+   void interact(const UserInput& ui);
+   
+   // move the gameplay by one unit of time
+   void animate();
+
+private:
+   GunLogic gunLogic;
+   birdLogic BirdLogic;
+   bulletLogic BulletLogic;
+   effectLogic EffectLogic;
+   pointsLogic PointsLogic;
+   scoreLogic ScoreLogic;
+   hitRatioLogic HitRatioLogic;
+
+   // generate new birds
+   void spawn();
+};
+
+
+class SkeetStorage
+{
+public:
+   // is the game currently playing right now?
+   bool isPlaying() const { return time.isPlaying();  }
+   
+private:
+   GunStorage gunStorage;                       // the gun
+   std::list<BirdStorage*> birds;        // all the shootable birds
+   std::list<BulletStorage*> bullets;    // the bullets
+   std::list<EffectStorage*> effects;    // the fragments of a dead bird.
+   std::list<PointsStorage>  points;     // point values;
+   Time time;                     // how many frames have transpired since the beginning
+   ScoreStorage score;                   // the player's score
+   HitRatioStorage hitRatio;             // the hit ratio for the birds
+   PositionStorage dimensions;           // size of the screen
+   bool bullseye;
 };
