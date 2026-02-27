@@ -10,10 +10,14 @@
 #pragma once
 #include "position.h"
 
-/**********************
+// Forward Declarations so the compiler can chill out
+class BirdLogic;
+class BirdStorage;
+/*
+ 
+ 
  * BIRD
  * Everything that can be shot
- **********************/
 class Bird
 {
 protected:
@@ -49,51 +53,203 @@ public:
    virtual void draw() = 0;
    virtual void advance() = 0;
 };
+ 
+ 
+*/
+
+
+/**********************
+ * BIRD INTERFACE
+ * Interface of everything that can be shot
+ **********************/
+class BirdInterface
+{
+public:
+   BirdInterface() { };
+   virtual void draw(Position pt, double radius, bool dead) = 0;
+};
+
+/**********************
+ * BIRD LOGIC
+ * Logic of everything that can be shot
+ **********************/
+class BirdLogic
+{
+public:
+   BirdLogic() { };
+   
+   // setters
+   void kill(bool dead)                          { dead = true; }
+   bool isOutOfBounds(Position pt, Position dimensions, double radius) const
+   {
+      return (pt.getX() < -radius || pt.getX() >= dimensions.getX() + radius ||
+              pt.getY() < -radius || pt.getY() >= dimensions.getY() + radius);
+   }
+   virtual void advance(Velocity v, Position pt, Position dimensions, double radius, int points, bool dead) = 0;
+};
+
+/**********************
+ * BIRD STORAGE
+ * Storage of everything that can be shot
+ **********************/
+class BirdStorage
+{
+protected:
+   static Position dimensions; // size of the screen
+   Position pt;                  // position of the flyer
+   Velocity v;                // velocity of the flyer
+   double radius;             // the size (radius) of the flyer
+   bool dead;                 // is this flyer dead?
+   int points;                // how many points is this worth?
+   
+public:
+   BirdStorage() : dead(false), points(0), radius(1.0) { }
+   
+   // setters
+   void operator=(const Position    & rhs) { pt = rhs;    }
+   void operator=(const Velocity & rhs) { v = rhs;     }
+   void setPoints(int pts)              { points = pts;}
+
+   // getters
+   bool isDead()           const { return dead;   }
+   Position getPosition()     const { return pt;     }
+   Velocity getVelocity()  const { return v;      }
+   double getRadius()      const { return radius; }
+   int getPoints() const { return points; }
+};
+
+
 
 /*********************************************
- * STANDARD
+ * STANDARD INTERFACE
  * A standard bird: slows down, flies in a straight line
  *********************************************/
-class Standard : public Bird
+class StandardInterface : public BirdInterface
 {
 public:
-    Standard(double radius = 25.0, double speed = 5.0, int points = 10);
-    void draw();
-    void advance();
+    StandardInterface();
+    void draw(Position pt, double radius, bool dead);
 };
 
 /*********************************************
- * FLOATER
+ * STANDARD LOGIC
+ * A standard bird: slows down, flies in a straight line
+ *********************************************/
+class StandardLogic : public BirdLogic
+{
+public:
+    StandardLogic();
+    void advance(Velocity v, Position pt, Position dimensions, double radius, int points, bool dead);
+};
+
+/*********************************************
+ * STANDARD STORAGE
+ * A standard bird: slows down, flies in a straight line
+ *********************************************/
+class StandardStorage : public BirdStorage
+{
+public:
+    StandardStorage(double radius = 25.0, double speed = 5.0, int points = 10);
+};
+
+
+
+/*********************************************
+ * FLOATER INTERFACE
  * A bird that floats like a balloon: flies up and really slows down
  *********************************************/
-class Floater : public Bird
+class FloaterInterface : public BirdInterface
 {
 public:
-    Floater(double radius = 30.0, double speed = 5.0, int points = 15);
-    void draw();
-    void advance();
+    FloaterInterface();
+    void draw(Position pt, double radius, bool dead);
 };
 
 /*********************************************
- * CRAZY
+ * FLOATER LOGIC
+ * A bird that floats like a balloon: flies up and really slows down
+ *********************************************/
+class FloaterLogic : public BirdLogic
+{
+public:
+    FloaterLogic();
+    void advance(Velocity v, Position pt, Position dimensions, double radius, int points, bool dead);
+};
+
+/*********************************************
+ * FLOATER STORAGE
+ * A bird that floats like a balloon: flies up and really slows down
+ *********************************************/
+class FloaterStorage : public BirdStorage
+{
+public:
+    FloaterStorage(double radius = 30.0, double speed = 5.0, int points = 15);
+};
+
+
+
+/*********************************************
+ * CRAZY INTERFACE
  * A crazy flying object: randomly changes direction
  *********************************************/
-class Crazy : public Bird
+class CrazyInterface : public BirdInterface
 {
 public:
-    Crazy(double radius = 30.0, double speed = 4.5, int points = 30);
-    void draw();
-    void advance();
+    CrazyInterface();
+    void draw(Position position, double radius, bool dead);
 };
 
 /*********************************************
- * SINKER
- * A sinker bird: honors gravity
+ * CRAZY LOGIC
+ * A crazy flying object: randomly changes direction
  *********************************************/
-class Sinker : public Bird
+class CrazyLogic : public BirdLogic
 {
 public:
-    Sinker(double radius = 30.0, double speed = 4.5, int points = 20);
-    void draw();
-    void advance();
+    CrazyLogic();
+    void advance(Velocity v, Position pt, Position dimensions, double radius, int points, bool dead);
+};
+
+/*********************************************
+ * CRAZY STORAGE
+ * A crazy flying object: randomly changes direction
+ *********************************************/
+class CrazyStorage : public BirdStorage
+{
+public:
+    CrazyStorage(double radius = 30.0, double speed = 4.5, int points = 30);
+};
+
+
+
+/*********************************************
+ * SINKER INTERFACE
+ * A sinker bird: honors gravity
+ *********************************************/
+class SinkerInterface : public BirdInterface
+{
+public:
+    SinkerInterface();
+    void draw(Position position, double radius, bool dead);
+};
+
+/*********************************************
+ * SINKER LOGIC
+ * A sinker bird: honors gravity
+ *********************************************/
+class SinkerLogic : public BirdLogic
+{
+public:
+    SinkerLogic();
+    void advance(Velocity v, Position pt, Position dimensions, double radius, int points, bool dead);
+};
+
+/*********************************************
+ * SINKER STORAGE
+ * A sinker bird: honors gravity
+ *********************************************/
+class SinkerStorage : public BirdStorage
+{
+public:
+    SinkerStorage(double radius = 30.0, double speed = 4.5, int points = 20);
 };

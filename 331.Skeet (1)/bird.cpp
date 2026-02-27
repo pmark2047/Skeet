@@ -66,9 +66,9 @@ double randomFloat(double min, double max)
 /***************************************************************/
 
 /******************************************************************
- * STANDARD constructor
+ * STANDARD STORAGE constructor
  ******************************************************************/
-Standard::Standard(double radius, double speed, int points) : Bird()
+StandardStorage::StandardStorage(double radius, double speed, int points) : BirdStorage()
 {
    // set the position: standard birds start from the middle
    pt.setY(randomFloat(dimensions.getY() * 0.25, dimensions.getY() * 0.75));
@@ -86,9 +86,9 @@ Standard::Standard(double radius, double speed, int points) : Bird()
 }
 
 /******************************************************************
- * FLOATER constructor
+ * FLOATER STORAGE constructor
  ******************************************************************/
-Floater::Floater(double radius, double speed, int points) : Bird()
+FloaterStorage::FloaterStorage(double radius, double speed, int points) : BirdStorage()
 {
    // floaters start on the lower part of the screen because they go up with time
    pt.setY(randomFloat(dimensions.getY() * 0.01, dimensions.getY() * 0.5));
@@ -106,9 +106,9 @@ Floater::Floater(double radius, double speed, int points) : Bird()
 }
 
 /******************************************************************
- * SINKER constructor
+ * SINKER STORAGE constructor
  ******************************************************************/
-Sinker::Sinker(double radius, double speed, int points) : Bird()
+SinkerStorage::SinkerStorage(double radius, double speed, int points) : BirdStorage()
 {
    // sinkers start on the upper part of the screen because they go down with time
    pt.setY(randomFloat(dimensions.getY() * 0.50, dimensions.getY() * 0.95));
@@ -126,9 +126,9 @@ Sinker::Sinker(double radius, double speed, int points) : Bird()
 }
 
 /******************************************************************
- * CRAZY constructor
+ * CRAZY STORAGE constructor
  ******************************************************************/
-Crazy::Crazy(double radius, double speed, int points) : Bird()
+CrazyStorage::CrazyStorage(double radius, double speed, int points) : BirdStorage()
 {
    // crazy birds start in the middle and can go any which way
    pt.setY(randomFloat(dimensions.getY() * 0.25, dimensions.getY() * 0.75));
@@ -152,10 +152,10 @@ Crazy::Crazy(double radius, double speed, int points) : Bird()
  /***************************************************************/
 
 /*********************************************
- * STANDARD ADVANCE
+ * STANDARD LOGIC ADVANCE
  * How the standard bird moves - inertia and drag
  *********************************************/
-void Standard::advance()
+void StandardLogic::advance(Velocity v, Position pt, Position dimensions, double radius, int points, bool dead)
 {
    // small amount of drag
    v *= 0.995;
@@ -164,18 +164,18 @@ void Standard::advance()
    pt.add(v);
 
    // out of bounds checker
-   if (isOutOfBounds())
+   if (isOutOfBounds(pt, dimensions, radius))
    {
-      kill();
+      kill(dead);
       points *= -1; // points go negative when it is missed!
    }
 }
 
 /*********************************************
- * FLOATER ADVANCE
+ * FLOATER LOGIC ADVANCE
  * How the floating bird moves: strong drag and anti-gravity
  *********************************************/
-void Floater::advance()
+void FloaterLogic::advance(Velocity v, Position pt, Position dimensions, double radius, int points, bool dead)
 {
    // large amount of drag
    v *= 0.990;
@@ -187,18 +187,18 @@ void Floater::advance()
    v.addDy(0.05);
 
    // out of bounds checker
-   if (isOutOfBounds())
+   if (isOutOfBounds(pt, dimensions, radius))
    {
-      kill();
+      kill(dead);
       points *= -1; // points go negative when it is missed!
    }
 }
 
 /*********************************************
- * CRAZY ADVANCE
+ * CRAZY LOGIC ADVANCE
  * How the crazy bird moves, every half a second it changes direciton
  *********************************************/
-void Crazy::advance()
+void CrazyLogic::advance(Velocity v, Position pt, Position dimensions, double radius, int points, bool dead)
 {
    // erratic turns eery half a second or so
    if (randomInt(0, 15) == 0)
@@ -211,9 +211,9 @@ void Crazy::advance()
    pt.add(v);
 
    // out of bounds checker
-   if (isOutOfBounds())
+   if (isOutOfBounds(pt, dimensions, radius))
    {
-      kill();
+      kill(dead);
       points *= -1; // points go negative when it is missed!
    }
 }
@@ -222,7 +222,7 @@ void Crazy::advance()
  * SINKER ADVANCE
  * How the sinker bird moves, no drag but gravity
  *********************************************/
-void Sinker::advance()
+void SinkerLogic::advance(Velocity v, Position pt, Position dimensions, double radius, int points, bool dead)
 {
    // gravity
    v.addDy(-0.07);
@@ -231,9 +231,9 @@ void Sinker::advance()
    pt.add(v);
 
    // out of bounds checker
-   if (isOutOfBounds())
+   if (isOutOfBounds(pt, dimensions, radius))
    {
-      kill();
+      kill(dead);
       points *= -1; // points go negative when it is missed!
    }
 }
@@ -287,9 +287,9 @@ void drawDisk(const Position& center, double radius,
  * STANDARD DRAW
  * Draw a standard bird: blue center and white outline
  *********************************************/
-void Standard::draw()
+void StandardInterface::draw(Position pt, double radius, bool dead)
 {
-   if (!isDead())
+   if (!dead)
    {
       drawDisk(pt, radius - 0.0, 1.0, 1.0, 1.0); // white outline
       drawDisk(pt, radius - 3.0, 0.0, 0.0, 1.0); // blue center
@@ -300,9 +300,9 @@ void Standard::draw()
  * FLOATER DRAW
  * Draw a floating bird: white center and blue outline
  *********************************************/
-void Floater::draw()
+void FloaterInterface::draw(Position pt, double radius, bool dead)
 {
-   if (!isDead())
+   if (!dead)
    {
       drawDisk(pt, radius - 0.0, 0.0, 0.0, 1.0); // blue outline
       drawDisk(pt, radius - 4.0, 1.0, 1.0, 1.0); // white center
@@ -313,9 +313,9 @@ void Floater::draw()
  * CRAZY DRAW
  * Draw a crazy bird: concentric circles in a course gradient
  *********************************************/
-void Crazy::draw()
+void CrazyInterface::draw(Position pt, double radius, bool dead)
 {
-   if (!isDead())
+   if (!dead)
    {
       drawDisk(pt, radius * 1.0, 0.0, 0.0, 1.0); // bright blue outside
       drawDisk(pt, radius * 0.8, 0.2, 0.2, 1.0);
@@ -329,9 +329,9 @@ void Crazy::draw()
  * SINKER DRAW
  * Draw a sinker bird: black center and dark blue outline
  *********************************************/
-void Sinker::draw()
+void SinkerInterface::draw(Position pt, double radius, bool dead)
 {
-   if (!isDead())
+   if (!dead)
    {
       drawDisk(pt, radius - 0.0, 0.0, 0.0, 0.8);
       drawDisk(pt, radius - 4.0, 0.0, 0.0, 0.0);
