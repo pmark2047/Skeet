@@ -28,11 +28,12 @@ void callBack(const UserInput* pUI, void* p)
 {
    // the first step is to cast the void pointer into a game object. This
    // is the first step of every single callback function in OpenGL. 
-   Skeet* pSkeet = (Skeet*)p;
+   SkeetInterface* pSkeet = (SkeetInterface*)p;
 
    // Use SkeetInterface
    // something like pSkeet->playSkeet(*pUI);
    // ^this holds all the functions called upon below
+   pSkeet->playSkeet(*pUI);
    
    // handle user input
    pSkeet->interact(*pUI);

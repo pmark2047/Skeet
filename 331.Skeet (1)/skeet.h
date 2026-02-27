@@ -27,6 +27,7 @@
  *************************************************************************/
 class SkeetInterface
 {
+   class SkeetLogic;
 public:
     SkeetInterface(Position & dimensions) : dimensions(dimensions),
         gun(Position(800.0, 0.0)), time(), score(), hitRatio(), bullseye(false) {}
@@ -34,13 +35,18 @@ public:
     // output everything on the screen
     void drawLevel()  const;    // output the game
     void drawStatus() const;    // output the status information
+   
+   void playSkeet(const UserInput& ui);
     
 private:
+   SkeetLogic skeetLogic();
+   
    GunInterface gunInterface;
    BirdInterface birdInterface;
    BulletInterface bulletInterface;
    EffectInterface effectInterface;
    PointsInterface pointsInterface;
+   
    
    void drawBackground(double redBack, double greenBack, double blueBack) const;
    void drawTimer(double percent,
@@ -54,8 +60,11 @@ private:
 
 class SkeetLogic
 {
+   class SkeetStorage;
 public:
    SkeetLogic() {}
+   
+   void playSkeet(const UserInput& ui);
    
    // handle all user input
    void interact(const UserInput& ui);
@@ -71,6 +80,8 @@ private:
    pointsLogic PointsLogic;
    scoreLogic ScoreLogic;
    hitRatioLogic HitRatioLogic;
+   
+   SkeetStorage skeetStorage;
 
    // generate new birds
    void spawn();
@@ -82,8 +93,11 @@ class SkeetStorage
 public:
    // is the game currently playing right now?
    bool isPlaying() const { return time.isPlaying();  }
+   void incrementTime() { time++; }
+   Time getTimeStatus() { return time.isStatus(); }
+   void clearLists();
    
-private:
+// private:
    GunStorage gunStorage;                       // the gun
    std::list<BirdStorage*> birds;        // all the shootable birds
    std::list<BulletStorage*> bullets;    // the bullets

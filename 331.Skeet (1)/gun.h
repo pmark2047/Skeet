@@ -35,6 +35,7 @@ private:
  ************************************************************************/
 class GunLogic
 {
+   class GunStorage;
 public:
    void interact(GunStorage& storage,
       int clockwise,
@@ -49,6 +50,7 @@ public:
  ************************************************************************/
 class GunInterface
 {
+   class GunLogic;
 public:
    void draw(const GunStorage& storage) const;
 };

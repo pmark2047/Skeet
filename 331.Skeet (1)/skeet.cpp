@@ -31,22 +31,28 @@ using namespace std;
 #define GLUT_TEXT GLUT_BITMAP_HELVETICA_12
 #endif // _WIN32
 
+
+void SkeetStorage::clearLists()
+{
+   // get rid of the bullets and the birds without changing the score
+   birds.clear();
+   bullets.clear();
+   effects.clear();
+   points.clear();
+}
+
 /************************
  * SKEET ANIMATE
  * move the gameplay by one unit of time
  ************************/
 void SkeetLogic::animate()
 {
-   time++;
+   skeetStorage.incrementTime();
    
    // if status, then do not move the game
-   if (time.isStatus())
+   if (skeetStorage.getTimeStatus())
    {
-      // get rid of the bullets and the birds without changing the score
-      birds.clear();
-      bullets.clear();
-      effects.clear();
-      points.clear();
+      skeetStorage.clearLists(); // <- should this be a Logic function?
       return;
    }
    
@@ -54,30 +60,30 @@ void SkeetLogic::animate()
    spawn();
    
    // move the birds and the bullets
-   for (auto element : birds)
+   for (auto element : skeetStorage.birds)
    {
       element->advance();
       hitRatio.adjust(element->isDead() ? -1 : 0);
    }
-   for (auto bullet : bullets)
+   for (auto bullet : skeetStorage.bullets)
       bullet->move(effects);
-   for (auto effect : effects)
+   for (auto effect : skeetStorage.effects)
       effect->fly();
-   for (auto & pts : points)
+   for (auto & pts : skeetStorage.points)
       pts.update();
       
    // hit detection
-   for (auto element : birds)
-      for (auto bullet : bullets)
+   for (auto element : skeetStorage.birds)
+      for (auto bullet : skeetStorage.bullets)
          if (!element->isDead() && !bullet->isDead() &&
              element->getRadius() + bullet->getRadius() >
              minimumDistance(element->getPosition(), element->getVelocity(),
                              bullet->getPosition(),  bullet->getVelocity()))
          {
             for (int i = 0; i < 25; i++)
-               effects.push_back(new Fragment(bullet->getPosition(), bullet->getVelocity()));
-            element->kill();
-            bullet->kill();
+               skeetStorage.effects.push_back(new Fragment(bullet->getPosition(), bullet->getVelocity()));
+            element->kill(); // birdLogic.kill(element);
+            bullet->kill();  // bulletLogic.kill(bullet);
             hitRatio.adjust(1);
             bullet->setValue(-(element->getPoints()));
             element->setPoints(0);
@@ -349,6 +355,37 @@ void SkeetInterface::drawStatus() const
       drawText(Position(dimensions.getX() / 2 - 110, dimensions.getY() / 2 - 10),
          sout.str());
    }
+}
+
+void SkeetInterface::playSkeet(const UserInput & ui)
+{
+   skeetLogic.playSkeet(ui);
+   
+   /*
+    HOW DO WE GRAB isPlaying()???????
+    // output the stuff
+    if (pSkeet->isPlaying())
+       pSkeet->drawLevel();
+    else
+       pSkeet->drawStatus();
+   
+    */
+}
+
+void SkeetLogic::playSkeet(const UserInput & ui)
+{
+   interact(ui);
+   animate();
+   
+   /*
+    HOW DO WE GRAB isPlaying()???????
+    // output the stuff
+    if (pSkeet->isPlaying())
+       pSkeet->drawLevel();
+    else
+       pSkeet->drawStatus();
+   
+    */
 }
 
 /************************

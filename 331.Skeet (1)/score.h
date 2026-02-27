@@ -17,30 +17,8 @@
 class StatusLogic
 {
 public:
-    StatusLogic() {}
-    virtual void adjust(int value) = 0;
-};
-
-/**********************
- * SCORE
- * Points earned vs lost
- **********************/
-class ScoreLogic : public StatusLogic
-{
-public:
-    ScoreLogic() { }
-    void adjust(int value) { points += value; }
-};
-
-/**********************
- * HIT RATIO
- * Bird hit ratio
- **********************/
-class HitRatioLogic : public StatusLogic
-{
-public:
-    HitRatioLogic()  { }
-    void adjust(int value);
+   StatusLogic() {}
+   virtual void adjust(int value) = 0;
 };
 
 /**********************
@@ -55,8 +33,20 @@ public:
     virtual void reset() = 0;
 };
 
+
 /**********************
- * SCORE
+ * SCORE LOGIC
+ * Points earned vs lost
+ **********************/
+class ScoreLogic : public StatusLogic
+{
+public:
+    ScoreLogic() { }
+    void adjust(int value) { points += value; }
+};
+
+/**********************
+ * SCORE STORAGE
  * Points earned vs lost
  **********************/
 class ScoreStorage : public StatusStorage
@@ -70,7 +60,18 @@ private:
 };
 
 /**********************
- * HIT RATIO
+ * HIT RATIO LOGIC
+ * Bird hit ratio
+ **********************/
+class HitRatioLogic : public StatusLogic
+{
+public:
+    HitRatioLogic()  { }
+    void adjust(int value);
+};
+
+/**********************
+ * HIT RATIO STORAGE
  * Bird hit ratio
  **********************/
 class HitRatioStorage : public StatusStorage
