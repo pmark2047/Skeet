@@ -9,7 +9,7 @@
 
 #pragma once
 #include "position.h"
-#include "velocity.h"
+// #include "velocity.h"
 
 /**********************
  * Effect: stuff that is not interactive

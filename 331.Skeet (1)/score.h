@@ -16,8 +16,10 @@
  **********************/
 class StatusLogic
 {
+   
 public:
    StatusLogic() {}
+   StatusStorage storage;
    virtual void adjust(int value) = 0;
 };
 
@@ -42,7 +44,7 @@ class ScoreLogic : public StatusLogic
 {
 public:
     ScoreLogic() { }
-    void adjust(int value) { points += value; }
+    void adjust(int value) { setPoints(value); } // ????????
 };
 
 /**********************
@@ -54,6 +56,7 @@ class ScoreStorage : public StatusStorage
 public:
     ScoreStorage() { reset(); }
     std::string getText() const;
+    void setPoints(int value) { points += value; }
     void reset() { points = 0; }
 private:
     int points;
