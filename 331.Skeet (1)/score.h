@@ -19,7 +19,6 @@ class StatusLogic
    
 public:
    StatusLogic() {}
-   StatusStorage storage;
    virtual void adjust(int value) = 0;
 };
 
@@ -44,7 +43,7 @@ class ScoreLogic : public StatusLogic
 {
 public:
     ScoreLogic() { }
-    void adjust(int value) { setPoints(value); } // ????????
+    void adjust(ScoreStorage score, int value) { score.setPoints(value); } // ????????
 };
 
 /**********************

@@ -57,6 +57,8 @@ public:
  
 */
 
+enum BIRDTYPE { STANDARD, CRAZY, FLOATER, SINKER };
+
 
 /**********************
  * BIRD INTERFACE
@@ -116,6 +118,7 @@ public:
    Velocity getVelocity()  const { return v;      }
    double getRadius()      const { return radius; }
    int getPoints() const { return points; }
+   virtual BIRDTYPE getType();
 };
 
 
@@ -150,6 +153,11 @@ class StandardStorage : public BirdStorage
 {
 public:
     StandardStorage(double radius = 25.0, double speed = 5.0, int points = 10);
+    BIRDTYPE getType()
+    {
+       BIRDTYPE type = STANDARD;
+       return type;
+    }
 };
 
 
@@ -184,6 +192,11 @@ class FloaterStorage : public BirdStorage
 {
 public:
     FloaterStorage(double radius = 30.0, double speed = 5.0, int points = 15);
+   BIRDTYPE getType()
+   {
+      BIRDTYPE type = FLOATER;
+      return type;
+   }
 };
 
 
@@ -218,6 +231,11 @@ class CrazyStorage : public BirdStorage
 {
 public:
     CrazyStorage(double radius = 30.0, double speed = 4.5, int points = 30);
+   BIRDTYPE getType()
+   {
+      BIRDTYPE type = CRAZY;
+      return type;
+   }
 };
 
 
@@ -252,4 +270,9 @@ class SinkerStorage : public BirdStorage
 {
 public:
     SinkerStorage(double radius = 30.0, double speed = 4.5, int points = 20);
+   BIRDTYPE getType()
+   {
+      BIRDTYPE type = SINKER;
+      return type;
+   }
 };

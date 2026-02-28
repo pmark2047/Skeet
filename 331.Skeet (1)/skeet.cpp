@@ -306,7 +306,7 @@ void SkeetInterface::drawLevel() const
       drawBullseye(gun.getAngle());
 
    // output the gun
-   gun.display();
+   gunInterface.display();
          
    // output the birds, bullets, and fragments
    for (auto& pts : points)
@@ -361,31 +361,52 @@ void SkeetInterface::playSkeet(const UserInput & ui)
 {
    skeetLogic.playSkeet(ui);
    
-   /*
-    HOW DO WE GRAB isPlaying()???????
     // output the stuff
-    if (pSkeet->isPlaying())
-       pSkeet->drawLevel();
+    if (skeetLogic.skeetStorage.isPlaying())
+       drawLevel();
     else
-       pSkeet->drawStatus();
-   
-    */
+       drawStatus();
 }
 
 void SkeetLogic::playSkeet(const UserInput & ui)
 {
    interact(ui);
    animate();
+}
+
+void SkeetLogic::modifyBird(BirdStorage bird)
+{
+   switch (bird) {
+      case bird.getType() == STANDARD:
+         StandardLogic().advance(bird.getVelocity(), bird.getPosition(), dimensions, bird.getRadius(), bird.getPoints(), bird.isDead());
+         break;
+      // [...]
+         
+      case bird.getType() == SINKER:
+         
+         break;
+         
+      case bird.getType() == FLOATER:
+         
+         break;
+         
+      case bird.getType() == CRAZY:
+         
+         break;
+         
+      default:
+         break;
+   }
+}
+
+void SkeetLogic::modifyBullet(SkeetStorage bullet)
+{
    
-   /*
-    HOW DO WE GRAB isPlaying()???????
-    // output the stuff
-    if (pSkeet->isPlaying())
-       pSkeet->drawLevel();
-    else
-       pSkeet->drawStatus();
+}
+
+void SkeetLogic::modifyEffect(SkeetStorage effect)
+{
    
-    */
 }
 
 /************************
