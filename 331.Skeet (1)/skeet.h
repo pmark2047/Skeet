@@ -36,10 +36,10 @@ public:
     void drawLevel()  const;    // output the game
     void drawStatus() const;    // output the status information
    
-   void playSkeet(const UserInput& ui);
+    void playSkeet(const UserInput& ui);
     
 private:
-   SkeetLogic skeetLogic();
+   SkeetLogic skeetLogic;
    
    GunInterface gunInterface;
    BirdInterface birdInterface;
