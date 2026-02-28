@@ -32,6 +32,9 @@ public:
     SkeetInterface(Position & dimensions) : dimensions(dimensions),
         gun(Position(800.0, 0.0)), time(), score(), hitRatio(), bullseye(false) {}
 
+   // SkeetInterface owns an SkeetLogic
+   SkeetLogic skeetLogic;
+   
     // output everything on the screen
     void drawLevel()  const;    // output the game
     void drawStatus() const;    // output the status information
@@ -39,12 +42,11 @@ public:
     void playSkeet(const UserInput& ui);
     
 private:
-   SkeetLogic skeetLogic;
-   
-   GunInterface gunInterface;
-   BirdInterface birdInterface;
+
+   GunInterface* gunInterface;
+   BirdInterface* birdInterface;
    BulletInterface bulletInterface;
-   EffectInterface effectInterface;
+   EffectInterface* effectInterface;
    PointsInterface pointsInterface;
    
    
@@ -54,7 +56,6 @@ private:
                 double redBack, double greenBack, double blueBack) const;
    void drawBullseye(double angle) const;
 
-    
 };
 
 
@@ -71,15 +72,24 @@ public:
    
    // move the gameplay by one unit of time
    void animate();
+   
+   // modify the needed bird (when needed)
+   void modifyBird(BirdStorage bird);
+   
+   // modify the needed bullet (when needed)
+   void modifyBullet(BulletStorage bullet);
+   
+   // modify the needed effect (when needed)
+   void modifyEffect(EffectStorage effect);
 
 private:
    GunLogic gunLogic;
-   birdLogic BirdLogic;
-   bulletLogic BulletLogic;
-   effectLogic EffectLogic;
-   pointsLogic PointsLogic;
-   scoreLogic ScoreLogic;
-   hitRatioLogic HitRatioLogic;
+   BirdLogic* birdLogic;
+   BulletLogic bulletLogic;
+   EffectLogic* effectLogic;
+   PointsLogic pointsLogic;
+   ScoreLogic* scoreLogic;
+   HitRatioLogic hitRatioLogic;
    
    SkeetStorage skeetStorage;
 
