@@ -195,9 +195,6 @@ void Fragment :: fly()
  *************************************************************************/
 void Streek :: fly()
 {
-    // move it forward with inertia (no gravity)
-//    pt += v;
-    
    // increase the age so it fades away
    age -= 0.10;
 }
@@ -208,9 +205,42 @@ void Streek :: fly()
  *************************************************************************/
 void Exhaust :: fly()
 {
-   // move it forward with inertia (no gravity)
-//   pt += v;
-    
    // increase the age so it fades away
    age -= 0.025;
+}
+
+
+
+
+// New Implementation of the methods for EffectLogic and EffectInterface
+
+
+void FragmentLogic::fly(FragmentStorage& storage)
+{
+   storage.pt += storage.v;
+   storage.age -= 0.02;
+   storage.size *= 0.95;
+}
+
+void FragmentInterface::render(const FragmentStorage& storage) const
+{
+   if (storage.isDead())
+      return;
+
+   glBegin(GL_TRIANGLE_FAN);
+   glColor3f((GLfloat)storage.age,
+      (GLfloat)storage.age,
+      (GLfloat)storage.age);
+
+   glVertex2f(storage.pt.getX() - storage.size,
+      storage.pt.getY() - storage.size);
+   glVertex2f(storage.pt.getX() + storage.size,
+      storage.pt.getY() - storage.size);
+   glVertex2f(storage.pt.getX() + storage.size,
+      storage.pt.getY() + storage.size);
+   glVertex2f(storage.pt.getX() - storage.size,
+      storage.pt.getY() + storage.size);
+
+   glColor3f(1.0, 1.0, 1.0);
+   glEnd();
 }

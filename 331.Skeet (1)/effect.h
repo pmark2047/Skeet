@@ -9,7 +9,6 @@
 
 #pragma once
 #include "position.h"
-// #include "velocity.h"
 
 /**********************
  * Effect: stuff that is not interactive
@@ -92,4 +91,64 @@ public:
     
     // move it forward with regards to inertia. Let it age
     void fly();
+};
+
+
+
+//New Implementations of separated logic, interface, and storage for Effect
+
+class EffectStorage
+{
+public:
+   EffectStorage(const Position& pt)
+      : pt(pt), age(0.5) {
+   }
+
+   bool isDead() const { return age <= 0.0; }
+
+   Position pt;
+   double age;
+};
+
+class FragmentStorage : public EffectStorage
+{
+public:
+   FragmentStorage(const Position& pt, const Velocity& baseVelocity);
+
+   Velocity v;
+   double size;
+};
+
+class FragmentLogic
+{
+public:
+   void fly(FragmentStorage& storage);
+};
+
+class FragmentInterface
+{
+public:
+   void render(const FragmentStorage& storage) const;
+};
+
+class Fragment : public Effect
+{
+public:
+   Fragment(const Position& pt, const Velocity& v)
+      : storage(pt, v) {}
+
+   void render() const override
+   {
+      interface.render(storage);
+   }
+
+   void fly() override
+   {
+      logic.fly(storage);
+   }
+
+private:
+   FragmentStorage storage;
+   FragmentLogic logic;
+   FragmentInterface interface;
 };
