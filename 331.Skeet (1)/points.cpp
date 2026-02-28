@@ -45,10 +45,10 @@ double randomValue(double min, double max)
 }
 
  /*********************************************
-  * POINTS Constructor
+  * POINTS STORAGE Constructor
   * Create a new points value
   *********************************************/
-Points::Points(const Position & pt, int value)
+PointsStorage::PointsStorage(const Position & pt, int value)
 {
    // initial position is where the bullet was last seen
    this->pt = pt;
@@ -69,10 +69,10 @@ Points::Points(const Position & pt, int value)
 }
 
 /*********************************************
- * POINTS SHOW
+ * POINTS INTERFACE SHOW
  * Draw a points value on the screen
  *********************************************/
-void Points::show() const
+void PointsInterface::show(Position pt, int value, float age) const
 {
    if (value == 0)
       return;
@@ -96,10 +96,10 @@ void Points::show() const
 }
 
 /*********************************************
- * POINTS UPDATE
+ * POINTS LOGIC UPDATE
  * Move the points value on the screen
  *********************************************/
-void Points::update()
+void PointsLogic::update(Position pt, Velocity v, float age)
 {
    v.addDx(randomValue(-0.15, 0.15));
    v.addDy(randomValue(-0.15, 0.15));
