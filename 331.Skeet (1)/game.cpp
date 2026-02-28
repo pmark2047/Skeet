@@ -34,12 +34,6 @@ void callBack(const UserInput* pUI, void* p)
    // something like pSkeet->playSkeet(*pUI);
    // ^this holds all the functions called upon below
    pSkeet->playSkeet(*pUI);
-   
-   // handle user input
-   pSkeet->interact(*pUI);
-
-   // move the stuff
-   pSkeet->animate();
 
    // output the stuff
    if (pSkeet->isPlaying())
