@@ -155,19 +155,20 @@ CrazyStorage::CrazyStorage(double radius, double speed, int points) : BirdStorag
  * STANDARD LOGIC ADVANCE
  * How the standard bird moves - inertia and drag
  *********************************************/
-void StandardLogic::advance(Velocity v, Position pt, Position dimensions, double radius, int points, bool dead)
+void StandardLogic::advance(BirdStorage bird, Position dimensions)
 {
    // small amount of drag
-   v *= 0.995;
+   bird.setVelocity(bird.getVelocity() *= 0.995);
 
    // inertia
-   pt.add(v);
+   pt.add(bird.getVelocity());
+   bird.addInertia(bird.getVelocity());
 
    // out of bounds checker
-   if (isOutOfBounds(pt, dimensions, radius))
+   if (isOutOfBounds(bird.getPosition(), dimensions, bird.getRadius()))
    {
       kill(dead);
-      points *= -1; // points go negative when it is missed!
+      bird.setPoints(bird.getPoints() *= -1);
    }
 }
 

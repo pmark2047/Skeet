@@ -43,7 +43,7 @@ class ScoreLogic : public StatusLogic
 {
 public:
     ScoreLogic() { }
-    void adjust(ScoreStorage score, int value) { score.setPoints(value); } // ????????
+    void adjust(ScoreStorage score, int value) { score.setPoints(value); }
 };
 
 /**********************

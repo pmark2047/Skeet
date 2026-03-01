@@ -111,10 +111,13 @@ public:
    void operator=(const Position    & rhs) { pt = rhs;    }
    void operator=(const Velocity & rhs) { v = rhs;     }
    void setPoints(int pts)              { points = pts;}
+   void setVelocity(Velocity v) { this->v = v;     }
+   void setPoision(Position pt) { this->pt = pt;   }
+   void addInertia(Velocity v)  { this->pt.add(v); }
 
    // getters
    bool isDead()           const { return dead;   }
-   Position getPosition()     const { return pt;     }
+   Position getPosition()  const { return pt;     }
    Velocity getVelocity()  const { return v;      }
    double getRadius()      const { return radius; }
    int getPoints() const { return points; }
