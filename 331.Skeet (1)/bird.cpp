@@ -8,6 +8,8 @@
  ************************************************************************/
 
 #include <cassert>
+#include <sstream>
+#include <string>
 #include "bird.h"
 
 #ifdef __APPLE__
@@ -68,8 +70,10 @@ double randomFloat(double min, double max)
 /******************************************************************
  * STANDARD constructor
  ******************************************************************/
-Standard::Standard(double radius, double speed, int points) : Bird()
+Standard::Standard(ShapeDrawer sD, double radius, double speed, int points) : Bird()
 {
+   this->shapeDrawer = sD;
+   
    // set the position: standard birds start from the middle
    pt.setY(randomFloat(dimensions.getY() * 0.25, dimensions.getY() * 0.75));
    pt.setX(0.0);
@@ -88,7 +92,7 @@ Standard::Standard(double radius, double speed, int points) : Bird()
 /******************************************************************
  * FLOATER constructor
  ******************************************************************/
-Floater::Floater(double radius, double speed, int points) : Bird()
+Floater::Floater(double radius, double speed, int points) : Bird(ShapeDrawer sD)
 {
    // floaters start on the lower part of the screen because they go up with time
    pt.setY(randomFloat(dimensions.getY() * 0.01, dimensions.getY() * 0.5));
@@ -108,7 +112,7 @@ Floater::Floater(double radius, double speed, int points) : Bird()
 /******************************************************************
  * SINKER constructor
  ******************************************************************/
-Sinker::Sinker(double radius, double speed, int points) : Bird()
+Sinker::Sinker(double radius, double speed, int points) : Bird(ShapeDrawer sD)
 {
    // sinkers start on the upper part of the screen because they go down with time
    pt.setY(randomFloat(dimensions.getY() * 0.50, dimensions.getY() * 0.95));
@@ -128,7 +132,7 @@ Sinker::Sinker(double radius, double speed, int points) : Bird()
 /******************************************************************
  * CRAZY constructor
  ******************************************************************/
-Crazy::Crazy(double radius, double speed, int points) : Bird()
+Crazy::Crazy(double radius, double speed, int points) : Bird(ShapeDrawer sD)
 {
    // crazy birds start in the middle and can go any which way
    pt.setY(randomFloat(dimensions.getY() * 0.25, dimensions.getY() * 0.75));
@@ -244,44 +248,7 @@ void Sinker::advance()
 /***************************************************************/
 /***************************************************************/
 
-/************************************************************************
- * DRAW Disk
- * Draw a filled circule at [center] with size [radius]
- *************************************************************************/
-void drawDisk(const Position& center, double radius,
-              double red, double green, double blue)
-{
-   assert(radius > 1.0);
-   const double increment = M_PI / radius;  // bigger the circle, the more increments
 
-   // begin drawing
-   glBegin(GL_TRIANGLES);
-   glColor3f((GLfloat)red /* red % */, (GLfloat)green /* green % */, (GLfloat)blue /* blue % */);
-
-   // three points: center, pt1, pt2
-   Position pt1;
-   pt1.setX(center.getX() + (radius * cos(0.0)));
-   pt1.setY(center.getY() + (radius * sin(0.0)));
-   Position pt2(pt1);
-
-   // go around the circle
-   for (double radians = increment;
-      radians <= M_PI * 2.0 + .5;
-      radians += increment)
-   {
-      pt2.setX(center.getX() + (radius * cos(radians)));
-      pt2.setY(center.getY() + (radius * sin(radians)));
-
-      glVertex2f((GLfloat)center.getX(), (GLfloat)center.getY());
-      glVertex2f((GLfloat)pt1.getX(), (GLfloat)pt1.getY());
-      glVertex2f((GLfloat)pt2.getX(), (GLfloat)pt2.getY());
-
-      pt1 = pt2;
-   }
-
-   // complete drawing
-   glEnd();
-}
 
 /*********************************************
  * STANDARD DRAW
@@ -291,8 +258,38 @@ void Standard::draw()
 {
    if (!isDead())
    {
-      drawDisk(pt, radius - 0.0, 1.0, 1.0, 1.0); // white outline
-      drawDisk(pt, radius - 3.0, 0.0, 0.0, 1.0); // blue center
+      std::string order1 = "DRAW BIRD ,-,0.0,1.0,1.0,1.0";
+      
+      // the following inserts the variables that aren't set in stone
+      int placement = 10;
+      order1.insert(order1.begin() + placement, pt.getX());
+      placement += std::to_string(pt.getX()).size();
+      order1.insert(order1.begin() + placement, ',');
+      placement += 1;
+      order1.insert(order1.begin() + placement, pt.getY());
+      placement += std::to_string(pt.getY()).size();
+      order1.insert(order1.begin() + placement, ',');
+      placement += 1;
+      order1.insert(order1.begin() + placement, radius);
+      
+      // send for execution
+      shapeDrawer.execute(order1);
+      
+      // the following inserts the variables that aren't set in stone
+      std::string order2 = "DRAW BIRD ,-,3.0,0.0,0.0,0.0";
+      placement = 10;
+      order2.insert(order2.begin() + placement, pt.getX());
+      placement += std::to_string(pt.getX()).size();
+      order2.insert(order2.begin() + placement, ',');
+      placement += 1;
+      order2.insert(order2.begin() + placement, pt.getY());
+      placement += std::to_string(pt.getY()).size();
+      order2.insert(order2.begin() + placement, ',');
+      placement += 1;
+      order2.insert(order2.begin() + placement, radius);
+      
+      // send for execution
+      shapeDrawer.execute(order1);
    }
 }
 
@@ -336,4 +333,106 @@ void Sinker::draw()
       drawDisk(pt, radius - 0.0, 0.0, 0.0, 0.8);
       drawDisk(pt, radius - 4.0, 0.0, 0.0, 0.0);
    }
+}
+
+void ShapeDrawer::execute(std::string order)
+{
+   //    "COMMAND PRIMITIVE (COMMAND)"
+   // ex “DRAW BIRD 0,0,25.0,-,0.0,1.0,1.0,1.0”
+   
+   std::vector<std::string> orders = {"", "", ""};
+   
+   std::stringstream stream(order);
+   std::string token;
+   
+   int i = 0;
+   
+   while (std::getline(stream, token, ' '))
+   {
+      orders[i] = token;
+      i++;
+   }
+   
+   std::string command = orders[0];
+   std::string primitive = orders[1];
+   
+   if (command == "DRAW")
+   {
+      if (primitive == "BIRD")
+      {
+         std::vector<std::string> commands;
+         std::stringstream stream(orders[2]);
+         
+         while (std::getline(stream, token, ','))
+         {
+            commands.push_back(token);
+         }
+         
+         double x          = stod(commands[0]);
+         double y          = stod(commands[1]);
+         double radius     = stod(commands[2]);
+         std::string op    = commands[3];
+         double radiusSize = stod(commands[4]);
+         double red        = stod(commands[5]);
+         double green      = stod(commands[6]);
+         double blue       = stod(commands[7]);
+         
+         if (op == "-")
+         {
+            drawBird(x, y, radius - radiusSize, red, green, blue);
+         }
+         
+         else if (op == "*")
+         {
+            drawBird(x, y, radius * radiusSize, red, green, blue);
+         }
+         
+         else
+         {
+            // assert
+         }
+         
+      }
+      
+      else
+      {
+         // assert
+      }
+   }
+}
+
+
+void ShapeDrawer::drawBird(double x, double y, double radius,
+                            double red, double green, double blue)
+{
+   assert(radius > 1.0);
+   const double increment = M_PI / radius;  // bigger the circle, the more increments
+
+   // begin drawing
+   glBegin(GL_TRIANGLES);
+   glColor3f((GLfloat)red /* red % */, (GLfloat)green /* green % */, (GLfloat)blue /* blue % */);
+
+   // three points: center, pt1, pt2
+   Position pt1;
+   pt1.setX(x + (radius * cos(0.0)));
+   pt1.setY(y + (radius * sin(0.0)));
+   Position pt2(pt1);
+
+   // go around the circle
+   for (double radians = increment;
+     radians <= M_PI * 2.0 + .5;
+     radians += increment)
+   {
+     pt2.setX(x + (radius * cos(radians)));
+     pt2.setY(y + (radius * sin(radians)));
+
+     glVertex2f((GLfloat)x, (GLfloat)y);
+     glVertex2f((GLfloat)pt1.getX(), (GLfloat)pt1.getY());
+     glVertex2f((GLfloat)pt2.getX(), (GLfloat)pt2.getY());
+
+     pt1 = pt2;
+   }
+
+   // complete drawing
+   glEnd();
 }

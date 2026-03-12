@@ -62,4 +62,5 @@ private:
     HitRatio hitRatio;             // the hit ratio for the birds
     Position dimensions;           // size of the screen
     bool bullseye;
+    ShapeDrawer shapeDrawer;
 };

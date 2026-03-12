@@ -23,9 +23,10 @@ protected:
    double radius;             // the size (radius) of the flyer
    bool dead;                 // is this flyer dead?
    int points;                // how many points is this worth?
+   ShapeDrawer* shapeDrawer;
    
 public:
-   Bird() : dead(false), points(0), radius(1.0) { }
+   Bird() : dead(false), points(0), radius(1.0);
    
    // setters
    void operator=(const Position    & rhs) { pt = rhs;    }
@@ -57,7 +58,7 @@ public:
 class Standard : public Bird
 {
 public:
-    Standard(double radius = 25.0, double speed = 5.0, int points = 10);
+    Standard(ShapeDrawer sD, double radius = 25.0, double speed = 5.0, int points = 10);
     void draw();
     void advance();
 };
@@ -96,4 +97,18 @@ public:
     Sinker(double radius = 30.0, double speed = 4.5, int points = 20);
     void draw();
     void advance();
+};
+
+
+class ShapeDrawer
+{
+public:
+   ShapeDrawer() { }
+   
+   void execute(std::string order);
+   
+private:
+   void drawBird(double x, double y, double radius,
+                 double red, double green, double blue);
+   
 };
