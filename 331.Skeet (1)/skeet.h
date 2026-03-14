@@ -38,7 +38,7 @@ public:
     void animate();
 
     // output everything on the screen
-    void drawLevel()  const;    // output the game
+    void drawLevel() const;    // output the game
     void drawStatus() const;    // output the status information
 
     // is the game currently playing right now?
