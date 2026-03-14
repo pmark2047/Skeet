@@ -32,6 +32,17 @@ using namespace std;
 #endif // _WIN32
 
 /************************
+* SKEET DELEGATE
+************************/
+void Skeet::delegate(void (Bird::* order)()) const
+{
+   for (auto bird : birds)
+   {
+      (bird->*order)();
+   }
+}
+
+/************************
  * SKEET ANIMATE
  * move the gameplay by one unit of time
  ************************/
@@ -54,11 +65,10 @@ void Skeet::animate()
    spawn();
    
    // move the birds and the bullets
+   delegate(&Bird::advance);
+
    for (auto element : birds)
-   {
-      element->advance();
       hitRatio.adjust(element->isDead() ? -1 : 0);
-   }
    for (auto bullet : bullets)
       bullet->move(effects);
    for (auto effect : effects)
@@ -309,8 +319,7 @@ void Skeet::drawLevel() const
       effect->render();
    for (auto bullet : bullets)
       bullet->output();
-   for (auto element : birds)
-      element->draw();
+   delegate(&Bird::draw);
    
    // status
    drawText(Position(10,                         dimensions.getY() - 30), score.getText()  );
