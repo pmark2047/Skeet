@@ -100,7 +100,7 @@ void drawRectangle(const Position& pt,
   *********************************************/
 void Gun::display() const
 {
-   drawRectangle(pt, M_PI_2 - angle, 10.0, 100.0, 1.0, 1.0, 1.0);
+   gout.drawRectangle(pt, M_PI_2 - angle, 10.0, 100.0, 1.0, 1.0, 1.0);
 }
 
 /*********************************************
