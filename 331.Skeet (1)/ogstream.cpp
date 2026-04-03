@@ -61,6 +61,37 @@ void ogstream::drawDot(const Position & pt) const
 }
 
 /************************
+ * DRAW DISK
+ ************************/
+void ogstream::drawDisk(const Position& center, double radius,
+                        double red, double green, double blue) const
+{
+   const double increment = M_PI / radius;
+
+   glBegin(GL_TRIANGLES);
+   glColor3f(red, green, blue);
+
+   Position pt1;
+   pt1.setX(center.getX() + (radius * cos(0.0)));
+   pt1.setY(center.getY() + (radius * sin(0.0)));
+   Position pt2(pt1);
+
+   for (double radians = increment; radians <= M_PI * 2.0 + .5; radians += increment)
+   {
+      pt2.setX(center.getX() + (radius * cos(radians)));
+      pt2.setY(center.getY() + (radius * sin(radians)));
+
+      glVertex2f(center.getX(), center.getY());
+      glVertex2f(pt1.getX(), pt1.getY());
+      glVertex2f(pt2.getX(), pt2.getY());
+
+      pt1 = pt2;
+   }
+
+   glEnd();
+}
+
+/************************
  * FLUSH 
  ************************/
 void ogstream::flush() const
