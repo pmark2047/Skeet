@@ -9,6 +9,7 @@
 
 #pragma once
 #include "position.h"
+#include "ogstream.h"
 
 /*********************************************
  * GUN
@@ -17,8 +18,8 @@
 class Gun
 {
 public:
-   Gun(const Position & pt) : angle(0.78 /* 45 degrees */), pt(pt) {}  // 45 degrees initially
-   void display() const;
+   Gun(const Position & pt = Postion(0,0)) : angle(0.0) pt(pt) {} 
+   void display(ogstream & gout) const;
    void interact(int clockwise, int counterclockwise);
    double getAngle() const { return angle; }
    
