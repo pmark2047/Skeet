@@ -9,6 +9,7 @@
 
 #pragma once
 #include "position.h"
+#include "ogstream.h"
 
 /**********************
  * Effect: stuff that is not interactive
@@ -20,15 +21,11 @@ protected:
     double age;    // 1.0 = new, 0.0 = dead
 public:
     // create a fragment based on the velocity and position of the bullet
-    Effect(const Position & pt) : pt(pt), age(0.5) {}
+    Effect(const Position & pt) : pt(pt), age(1.0) {}
     
-    // draw it
-    virtual void render() const = 0;
-    
-    // move it forward with regards to inertia. Let it age
+    virtual ~Effect() {}
     virtual void fly() = 0;
-    
-    // it is dead when age goes to 0.0
+    virtual void render(ogstream & gout) const = 0;
     bool isDead() const { return age <= 0.0; }
 };
 
@@ -46,10 +43,10 @@ public:
     Fragment(const Position & pt, const Velocity & v);
     
     // draw it
-    void render() const;
+    void render(ogstream & gout) const override;
     
     // move it forward with regards to inertia. Let it age
-    void fly();
+    void fly() override;
 };
 
 /**********************
@@ -60,15 +57,16 @@ class Streek : public Effect
 {
 private:
    Position ptEnd;
+   Velocity v;
 public:
     // create a fragment based on the velocity and position of the bullet
     Streek(const Position & pt, Velocity v);
     
     // draw it
-    void render() const;
+    void render(ogstream & gout) const override;
     
     // move it forward with regards to inertia. Let it age
-    void fly();
+    void fly() override;
 };
 
 /**********************
@@ -79,13 +77,14 @@ class Exhaust : public Effect
 {
 private:
    Position ptEnd;
+   Velocity v;
 public:
     // create a fragment based on the velocity and position of the bullet
     Exhaust(const Position & pt, Velocity v);
     
     // draw it
-    void render() const;
+    void render(ogstream & gout) const override;
     
     // move it forward with regards to inertia. Let it age
-    void fly();
+    void fly() override;
 };
