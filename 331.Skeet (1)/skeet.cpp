@@ -251,10 +251,6 @@ void drawText(const Position& topLeft, const char* text)
    for (const char* p = text; *p; p++)
       glutBitmapCharacter(pFont, *p);
 }
-void drawText(const Position & topLeft, const string & text)
-{
-   drawText(topLeft, text.c_str());
-}
 
 /************************
  * DRAW BULLSEYE
@@ -300,22 +296,22 @@ void Skeet::drawLevel() const
       drawBullseye(gun.getAngle());
 
    // output the gun
-   gun.display();
+   gun.display(gout);
          
    // output the birds, bullets, and fragments
    for (auto& pts : points)
-      pts.show();
+      pts.show(gout);
    for (auto effect : effects)
-      effect->render();
+      effect->render(gout);
    for (auto bullet : bullets)
-      bullet->output();
+      bullet->output(gout);
    for (auto element : birds)
-      element->draw();
+      element->draw(gout);
    
    // status
-   drawText(Position(10,                         dimensions.getY() - 30), score.getText()  );
-   drawText(Position(dimensions.getX() / 2 - 30, dimensions.getY() - 30), time.getText()   );
-   drawText(Position(dimensions.getX() - 110,    dimensions.getY() - 30), hitRatio.getText());
+   gout.drawText(Position(10,                         dimensions.getY() - 30), score.getText()  );
+   gout.drawText(Position(dimensions.getX() / 2 - 30, dimensions.getY() - 30), time.getText()   );
+   gout.drawText(Position(dimensions.getX() - 110,    dimensions.getY() - 30), hitRatio.getText());
 }
 
 /************************
@@ -329,11 +325,11 @@ void Skeet::drawStatus() const
    if (time.isGameOver())
    {
       // draw the end of game message
-      drawText(Position(dimensions.getX() / 2 - 30, dimensions.getY() / 2 + 10),
+      gout.drawText(Position(dimensions.getX() / 2 - 30, dimensions.getY() / 2 + 10),
                "Game Over");
 
       // draw end of game status
-      drawText(Position(dimensions.getX() / 2 - 30, dimensions.getY() / 2 - 10),
+      gout.drawText(Position(dimensions.getX() / 2 - 30, dimensions.getY() / 2 - 10),
                score.getText());
    }
    else
@@ -346,7 +342,7 @@ void Skeet::drawStatus() const
       // draw the message giving a countdown
       sout << "Level " << time.level()
            << " begins in " << time.secondsLeft() << " seconds";
-      drawText(Position(dimensions.getX() / 2 - 110, dimensions.getY() / 2 - 10),
+      gout.drawText(Position(dimensions.getX() / 2 - 110, dimensions.getY() / 2 - 10),
          sout.str());
    }
 }
