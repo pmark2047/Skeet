@@ -291,8 +291,8 @@ void Standard::draw()
 {
    if (!isDead())
    {
-      drawDisk(pt, radius - 0.0, 1.0, 1.0, 1.0); // white outline
-      drawDisk(pt, radius - 3.0, 0.0, 0.0, 1.0); // blue center
+      gout.drawDisk(pt, radius - 0.0, 1.0, 1.0, 1.0); // white outline
+      gout.drawDisk(pt, radius - 3.0, 0.0, 0.0, 1.0); // blue center
    }
 }
 
@@ -304,8 +304,8 @@ void Floater::draw()
 {
    if (!isDead())
    {
-      drawDisk(pt, radius - 0.0, 0.0, 0.0, 1.0); // blue outline
-      drawDisk(pt, radius - 4.0, 1.0, 1.0, 1.0); // white center
+      gout.drawDisk(pt, radius - 0.0, 0.0, 0.0, 1.0); // blue outline
+      gout.drawDisk(pt, radius - 4.0, 1.0, 1.0, 1.0); // white center
    }
 }
 
@@ -317,11 +317,11 @@ void Crazy::draw()
 {
    if (!isDead())
    {
-      drawDisk(pt, radius * 1.0, 0.0, 0.0, 1.0); // bright blue outside
-      drawDisk(pt, radius * 0.8, 0.2, 0.2, 1.0);
-      drawDisk(pt, radius * 0.6, 0.4, 0.4, 1.0);
-      drawDisk(pt, radius * 0.4, 0.6, 0.6, 1.0);
-      drawDisk(pt, radius * 0.2, 0.8, 0.8, 1.0); // almost white inside
+      gout.drawDisk(pt, radius * 1.0, 0.0, 0.0, 1.0); // bright blue outside
+      gout.drawDisk(pt, radius * 0.8, 0.2, 0.2, 1.0);
+      gout.drawDisk(pt, radius * 0.6, 0.4, 0.4, 1.0);
+      gout.drawDisk(pt, radius * 0.4, 0.6, 0.6, 1.0);
+      gout.drawDisk(pt, radius * 0.2, 0.8, 0.8, 1.0); // almost white inside
    }
 }
 
@@ -333,7 +333,7 @@ void Sinker::draw()
 {
    if (!isDead())
    {
-      drawDisk(pt, radius - 0.0, 0.0, 0.0, 0.8);
-      drawDisk(pt, radius - 4.0, 0.0, 0.0, 0.0);
+      gout.drawDisk(pt, radius - 0.0, 0.0, 0.0, 0.8);
+      gout.drawDisk(pt, radius - 4.0, 0.0, 0.0, 0.0);
    }
 }
