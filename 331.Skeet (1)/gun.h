@@ -18,7 +18,7 @@
 class Gun
 {
 public:
-   Gun(const Position & pt = Position(0,0)) : angle(0.0) pt(pt) {} 
+   Gun(const Position & pt = Position(0,0)) : angle(0.0), pt(pt) {} 
    void display(ogstream & gout) const;
    void interact(int clockwise, int counterclockwise);
    double getAngle() const { return angle; }
