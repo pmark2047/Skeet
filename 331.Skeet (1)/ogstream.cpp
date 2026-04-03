@@ -1,11 +1,16 @@
 #include "ogstream.h"
+#include <string>
 
 using namespace std;
 
 #ifdef __APPLE__
-#define GLUT_TEXT GLUT_BITMAP_HELVETICA_18
-#else
-#define GLUT_TEXT GLUT_BITMAP_HELVETICA_12
+#include <openGL/gl.h>
+#include <GLUT/glut.h>
+#elif __linux__
+#include <GL/gl.h>
+#include <GL/glut.h>
+#elif _WIN32
+#include <GL/glut.h>
 #endif
 
 /************************
