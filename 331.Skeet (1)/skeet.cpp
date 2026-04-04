@@ -36,7 +36,7 @@ using namespace std;
  * SKEET ANIMATE
  * move the gameplay by one unit of time
  ************************/
-void Skeet::animate()
+void RealSkeet::animate()
 {
    time++;
    
@@ -130,7 +130,7 @@ void Skeet::animate()
  * Fill in the background
  *  INPUT color   Background color
  *************************************************************************/
-void Skeet::drawBackground(double redBack, double greenBack, double blueBack) const
+void RealSkeet::drawBackground(double redBack, double greenBack, double blueBack) const
 {
    glBegin(GL_TRIANGLE_FAN);
 
@@ -151,7 +151,7 @@ void Skeet::drawBackground(double redBack, double greenBack, double blueBack) co
  *        Foreground  Foreground color
  *        Background  Background color
  *************************************************************************/
-void Skeet::drawTimer(double percent,
+void RealSkeet::drawTimer(double percent,
                      double redFore, double greenFore, double blueFore,
                      double redBack, double greenBack, double blueBack) const
 {
@@ -241,7 +241,7 @@ void Skeet::drawTimer(double percent,
  *   INPUT  topLeft   The top left corner of the text
  *          text      The text to be displayed
  ************************************************************************/
-void drawText(const Position& topLeft, const char* text) 
+void drawText(const Position& topLeft, const char* text)
 {
    void* pFont = GLUT_TEXT;
    glColor3f((GLfloat)1.0 /* red % */, (GLfloat)1.0 /* green % */, (GLfloat)1.0 /* blue % */);
@@ -262,7 +262,7 @@ void drawText(const Position & topLeft, const string & text)
  * DRAW BULLSEYE
  * Put a bullseye on the screen
  ************************/
-void Skeet::drawBullseye(double angle) const
+void RealSkeet::drawBullseye(double angle) const
 {
    // find where we are pointing
    double distance = dimensions.getX();
@@ -292,7 +292,7 @@ void Skeet::drawBullseye(double angle) const
  * SKEET DRAW LEVEL
  * output everything that will be on the screen
  ************************/
-void Skeet::drawLevel() const
+void RealSkeet::drawLevel() const
 {
    // output the background
    drawBackground(time.level() * .1, 0.0, 0.0);
@@ -327,7 +327,7 @@ void Skeet::drawLevel() const
  * SKEET DRAW STATUS
  * place the status message on the center of the screen
  ************************/
-void Skeet::drawStatus() const
+void RealSkeet::drawStatus() const
 {
    // output the text information
    ostringstream sout;
@@ -360,7 +360,7 @@ void Skeet::drawStatus() const
  * SKEET INTERACT
  * handle all user input
  ************************/
-void Skeet::interact(const UserInput & ui)
+void RealSkeet::interact(const UserInput & ui)
 {
    // reset the game
    if (time.isGameOver() && ui.isSpace())
@@ -416,7 +416,7 @@ int random(int min, int max)
  * SKEET SPAWN
  * lanuch new birds
  ************************/
-void Skeet::spawn()
+void RealSkeet::spawn()
 {
    double size;
    switch (time.level())
@@ -489,5 +489,38 @@ void Skeet::spawn()
          
       default:
          break;
+   }
+}
+
+/***********************************************
+* PROXY METHODS
+* all the fake stuff
+***********************************************/
+void ProxySkeet::interact(const UserInput& ui)
+{
+   if (pRealSkeet->isPlaying())
+   {
+      pRealSkeet->interact(ui);
+   }
+}
+
+void ProxySkeet::animate()
+{
+   pRealSkeet->animate();
+}
+
+void ProxySkeet::drawLevel() const
+{
+   if (pRealSkeet->isPlaying())
+   {
+      pRealSkeet->drawLevel();
+   }
+}
+
+void ProxySkeet::drawStatus() const
+{
+   if (!pRealSkeet->isPlaying())
+   {
+      pRealSkeet->drawStatus();
    }
 }

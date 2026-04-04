@@ -66,10 +66,10 @@ int main(int argc, char** argv)
       dimensions);
 
    // initialize the game class
-   Skeet skeet(dimensions);
+   Skeet *pSkeet = new ProxySkeet(dimensions);
 
    // set everything into action
-   ui.run(callBack, &skeet);
+   ui.run(callBack, pSkeet);
 
    return 0;
 }

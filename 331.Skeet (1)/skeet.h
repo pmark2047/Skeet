@@ -28,21 +28,42 @@
 class Skeet
 {
 public:
-    Skeet(Position & dimensions) : dimensions(dimensions),
-        gun(Position(800.0, 0.0)), time(), score(), hitRatio(), bullseye(false) {}
-
     // handle all user input
-    void interact(const UserInput& ui);
+    virtual void interact(const UserInput& ui) = 0;
 
     // move the gameplay by one unit of time
-    void animate();
+    virtual void animate() = 0;
 
     // output everything on the screen
-    void drawLevel() const;    // output the game
-    void drawStatus() const;    // output the status information
+    virtual void drawLevel() const = 0;    // output the game
+    virtual void drawStatus() const = 0;    // output the status information
 
     // is the game currently playing right now?
-    bool isPlaying() const { return time.isPlaying();  }
+    virtual bool isPlaying() const = 0;
+};
+
+/*************************************************************************
+ * Real Skeet
+ * The REAL game class
+ *************************************************************************/
+class RealSkeet : public Skeet
+{
+public:
+    RealSkeet(Position & dimensions) : dimensions(dimensions),
+   gun(Position(800.0, 0.0)), time(), score(), hitRatio(), bullseye(false) {}
+
+    // handle all user input
+    void interact(const UserInput& ui) override;
+
+    // move the gameplay by one unit of time
+    void animate() override;
+
+    // output everything on the screen
+    void drawLevel() const override;    // output the game
+    void drawStatus() const override;    // output the status information
+
+    // is the game currently playing right now?
+    bool isPlaying() const override { return time.isPlaying();  }
 private:
     // generate new birds
     void spawn();                  
@@ -62,4 +83,29 @@ private:
     HitRatio hitRatio;             // the hit ratio for the birds
     Position dimensions;           // size of the screen
     bool bullseye;
+};
+
+/*************************************************************************
+ * Proxy Skeet
+ * The FAKE game class
+ *************************************************************************/
+class ProxySkeet : public Skeet
+{
+public:
+   ProxySkeet(Position & dimensions) { pRealSkeet = new RealSkeet(dimensions); }
+
+    // handle all user input
+    void interact(const UserInput& ui) override;
+
+    // move the gameplay by one unit of time
+    void animate() override;
+
+    // output everything on the screen
+    void drawLevel() const override;    // output the game
+    void drawStatus() const override;    // output the status information
+
+    // is the game currently playing right now?
+   bool isPlaying() const override { return pRealSkeet->isPlaying(); }
+private:
+   Skeet * pRealSkeet;
 };
